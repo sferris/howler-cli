@@ -17,7 +17,6 @@ func main() {
     os.Exit(1)
   }
 
-/*
   device.SetDefaultLEDColor(howler.Button26,"orange")
   time.Sleep(time.Second*2)
 
@@ -29,19 +28,24 @@ func main() {
 
   device.SetLEDColor(howler.Button("button26"),"blue")
 
+/*
   for i := 0; i < int(howler.MaxButton); i++ {
     c, _ := device.GetLEDColor(howler.Button(fmt.Sprintf("%d",i)))
     fmt.Printf("R: %d, G: %d, B: %d\n", c.R, c.G, c.B)
+    time.Sleep(time.Millisecond*500)
   }
+*/
 
   fw, _ := device.GetFWRelease()
   fmt.Printf("Firmware: %s\n", fw)
 
+/*
   for i := 0; i < int(howler.MaxButton); i++ {
-    _, err := device.GetInput(howler.Button(fmt.Sprintf("%d",i)))
+    _, err := device.GetInput(howler.Input(fmt.Sprintf("%d",i)))
     if err != nil {
       fmt.Println(err.Error())
     }
+    time.Sleep(time.Millisecond*500)
   }
 */
 
