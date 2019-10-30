@@ -49,8 +49,8 @@ func main() {
   }
 */
 
- device.SetInput(howler.Input_Button26, howler.Mode_Joystick2, 13, howler.Modifier_None)
+ device.SetInput(howler.InputButton26, howler.ModeJoystick2, 13, howler.ModifierNone)
  time.Sleep(time.Millisecond*500)
 
- device.GetInput(howler.Input_Button26)
+ device.GetInput(howler.InputButton26)
 }
