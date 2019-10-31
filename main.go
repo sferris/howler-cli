@@ -30,8 +30,8 @@ func main() {
   device.Write(data)
 
   fmt.Println("Query")
-  var qry = []byte{0xce,0x08,button,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
-  device.Query(qry)
+  var stmt = []byte{0xce,0x08,button,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+  device.WriteWithResponse(stmt)
 */
 
   device.SetDefaultLEDColor(button,"orange")
@@ -42,24 +42,22 @@ func main() {
 
   device.SetLEDColor(button,"blue")
 
-  fmt.Println("1st")
   for i := 0; i < int(howler.ButtonMax); i++ {
-    c, _ := device.GetLEDColor(howler.Button(fmt.Sprintf("%d",i)))
+    c, _ := device.GetLEDColor(howler.Buttons(i))
     fmt.Printf("%d: R: %d, G: %d, B: %d\n", i, c.R, c.G, c.B)
   }
 
   fw, _ := device.GetFWRelease()
   fmt.Printf("Firmware: %s\n", fw)
 
-/*
-  for i := 0; i < int(howler.MaxButton); i++ {
-    _, err := device.GetInput(howler.Input(fmt.Sprintf("%d",i)))
+  for i := 0; i < int(howler.InputMax); i++ {
+    err := device.GetInput(howler.Inputs(i))
     if err != nil {
       fmt.Println(err.Error())
     }
-    time.Sleep(time.Millisecond*500)
   }
 
+/*
  device.SetInput(howler.InputButton26, howler.ModeJoystick2, 13, howler.ModifierNone)
  time.Sleep(time.Millisecond*500)
 
