@@ -1,0 +1,21 @@
+---
+game: Mario Brothers
+inputs:
+  - button: Button1
+    mode: Keyboard
+    modifier: None
+    value: A
+  - button: Button2
+    mode: Keyboard
+    modifier: None
+    value: B
+leds:
+  - button: Button1
+    mode: Default
+    rgb: [0,0,0]
+  - button: Button2
+    mode: Default
+    rgb: [0,0,0]
+  - button: Button3
+    mode: Default
+    rgb: [0,0,0]

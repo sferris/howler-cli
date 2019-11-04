@@ -2,16 +2,51 @@ package main
 
 import (
   "os"
-  "fmt"
-  "time"
+  _"fmt"
+  "flag"
 
-  _"encoding/hex"
+  _"time"
 
-  howler "github.com/sferris/howler-controller"
+  //howler "github.com/sferris/howler-controller"
 )
 
-func main() {
+/*
+type Input struct {
+  Button    string
+  Mode      string
+  Modifier  string
+  Value     string
+}
 
+type Led struct {
+  Button    string
+  Mode      string
+  RGB       []int
+}
+*/
+
+
+func main() {
+  setLedCMD := flag.NewFlagSet("set-led", flag.ExitOnError)
+  setInputCMD := flag.NewFlagSet("set-input", flag.ExitOnError)
+
+  LedButton := setLedCMD.String("button", "", "Button to set Led color (Required)")
+  LedMode   := setLedCMD.String("mode", "", "The Led mode [Immediate||Default] (Required) ")
+  LedRGB    := setLedCMD.String("RGB", "", "The Led mode [Immediate||Default] (Required) ")
+
+  InputButton   := setInputCMD.String("button", "", 
+    "Button to set the Input properties (Required)")
+  InputMode     := setInputCMD.String("mode", "", 
+    "The Input mode [Joystick1 or 2||Keyboard||Mouse] (Required) ")
+  InputModifier := setInputCMD.String("modifier", "", 
+    "The Led mode [Immediate||Default] (Required) ")
+  InputValue    := setInputCMD.String("value", "", 
+    "The Led mode [Immediate||Default] (Required) ")
+
+  os.Exit(0)
+}
+
+/*
   //howler.DumpDevices()
 
   device, err := howler.OpenDevice(0)
@@ -59,7 +94,7 @@ func main() {
     }
   }
 
- device.SetInput(howler.InputButton26, howler.ModeKeyboard, howler.KeyZ, howler.ModifierRightShift)
+ device.SetInput(howler.InputButton26, howler.ModeKeyboard, howler.KeyZ, howler.ModifierNone)
  input, err := device.GetInput(howler.InputButton26)
  input.Dump()
 
@@ -69,4 +104,4 @@ func main() {
       fmt.Println(err.Error())
     }
   }
-}
+*/
