@@ -50,13 +50,34 @@ type Input struct {
 }
 
 func (input *Input) String() string {
-  return fmt.Sprintf(
-    "Button: %d, Mode: %d, Modifier: %d, Value: %d",
-      howler.Input(input.Button),
-      howler.Mode(input.Mode),
-      howler.Modifier(input.Modifier),
-      howler.Key(input.Value),
-  )
+  switch strings.ToLower(input.Mode) {
+    case "joystick1": fallthrough
+    case "joystick2":
+      return fmt.Sprintf(
+        "Button: %d, Mode: %d, Modifier: %d, Value: %d",
+          howler.Input(input.Button),
+          howler.Mode(input.Mode),
+          howler.Modifier(input.Modifier),
+          input.Value,
+      )
+    case "keyboard":
+      return fmt.Sprintf(
+        "Button: %d, Mode: %d, Modifier: %d, Value: %d",
+          howler.Input(input.Button),
+          howler.Mode(input.Mode),
+          howler.Modifier(input.Modifier),
+          howler.Key(input.Value),
+      )
+    case "mouse":
+      return fmt.Sprintf(
+        "Button: %d, Mode: %d, Modifier: %d, Value: %d",
+          howler.Input(input.Button),
+          howler.Mode(input.Mode),
+          howler.Modifier(input.Modifier),
+          howler.MouseButton(input.Value),
+      )
+  }
+  return ""
 }
 
 func (input *Input) Set() error {
@@ -66,15 +87,15 @@ func (input *Input) Set() error {
 
 type Led struct {
   Button    string
-  Mode      string
+  Scope     string
   RGB       rgbFlags
 }
 
 func (led *Led) String() string {
   return fmt.Sprintf(
-    "Button: %d, Mode: %s, Red: %d, Green: %d, Blue: %d",
+    "Button: %d, Scope: %s, Red: %d, Green: %d, Blue: %d",
       howler.Button(led.Button),
-      led.Mode,
+      led.Scope,
       led.RGB.Red,
       led.RGB.Green,
       led.RGB.Blue,
@@ -97,20 +118,16 @@ func main() {
   setInputCMD := flag.NewFlagSet("set-input", flag.ExitOnError)
   setReadFileCMD := flag.NewFlagSet("read-file", flag.ExitOnError)
 
-  LedButton := setLedCMD.String("button", "", "Button to set Led color (Required)")
-  LedMode   := setLedCMD.String("mode", "Immediate", "The Led mode {Immediate|Default}")
+  LedButton := setLedCMD.String("led", "", "Led Button to change the color (Required)")
+  LedScope   := setLedCMD.String("scope", "current", "The Led scope (default or current)")
 
   var LedRGB rgbFlags
   setLedCMD.Var(&LedRGB, "rgb", "The RGB value for the Led color (Required)")
 
-  InputButton   := setInputCMD.String("button", "", 
-    "Button to set the Input properties (Required)")
-  InputMode     := setInputCMD.String("mode", "", 
-    "The Input mode [Joystick1 or 2||Keyboard||Mouse] (Required)")
-  InputModifier := setInputCMD.String("modifier", "", 
-    "The Led mode [Immediate||Default] (Required)")
-  InputValue    := setInputCMD.String("value", "", 
-    "The Led mode [Immediate||Default] (Required)")
+  InputButton   := setInputCMD.String("input", "", "Button to set the Input properties (Required)")
+  InputMode     := setInputCMD.String("mode", "", "The Input mode [Joystick1 or 2||Keyboard||Mouse] (Required)")
+  InputModifier := setInputCMD.String("modifier", "", "The Input key modifier")
+  InputValue    := setInputCMD.String("value", "", "The Input value (Required)")
 
   FileName := setReadFileCMD.String("file", "",
     "File to read instructions from (Required)")
@@ -138,7 +155,7 @@ func main() {
   if setLedCMD.Parsed() {
     led := Led{
       Button: *LedButton,
-      Mode:   *LedMode,
+      Scope:  *LedScope,
       RGB:     LedRGB,
     }
 
