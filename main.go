@@ -10,7 +10,7 @@ import (
 
   _"time"
 
-  //howler "github.com/sferris/howler-controller"
+  howler "github.com/sferris/howler-controller"
 )
 
 type rgbFlags struct {
@@ -49,10 +49,41 @@ type Input struct {
   Value     string
 }
 
+func (input *Input) String() string {
+  return fmt.Sprintf(
+    "Button: %d, Mode: %d, Modifier: %d, Value: %d",
+      howler.Input(input.Button),
+      howler.Mode(input.Mode),
+      howler.Modifier(input.Modifier),
+      howler.Key(input.Value),
+  )
+}
+
+func (input *Input) Set() error {
+  fmt.Println(input)
+  return nil
+}
+
 type Led struct {
   Button    string
   Mode      string
   RGB       rgbFlags
+}
+
+func (led *Led) String() string {
+  return fmt.Sprintf(
+    "Button: %d, Mode: %s, Red: %d, Green: %d, Blue: %d",
+      howler.Button(led.Button),
+      led.Mode,
+      led.RGB.Red,
+      led.RGB.Green,
+      led.RGB.Blue,
+  )
+}
+
+func (led *Led) Set() error {
+  fmt.Println(led)
+  return nil
 }
 
 type Work struct {
@@ -111,7 +142,7 @@ func main() {
       RGB:     LedRGB,
     }
 
-    fmt.Println(led)
+    led.Set();
   }
 
   if setInputCMD.Parsed() {
@@ -122,7 +153,7 @@ func main() {
       Value:     *InputValue,
     }
 
-    fmt.Println(input)
+    input.Set();
   }
 
   if setReadFileCMD.Parsed() {
