@@ -2,15 +2,7 @@ package main
 
 import (
   "os"
-  _"fmt"
-  _"log"
   "flag"
-  _"strings"
-  _"strconv"
-
-  _"time"
-
-  //howler "github.com/sferris/howler-controller"
 )
 
 func main() {
@@ -20,14 +12,9 @@ func main() {
   }
 
   switch os.Args[1] {
-    case "set-led":
-      parseLed()
-
-    case "set-input":
-      parseInput()
-
-    case "read-file": 
-      parseYAML()
+    case "set-led":     parseLed()
+    case "set-input":   parseInput()
+    case "from-file":   parseYAML()
 
     default:
       flag.PrintDefaults()

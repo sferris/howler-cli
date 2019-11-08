@@ -12,10 +12,19 @@ inputs:
 leds:
   - button: Button1
     mode: Default
-    rgb: [0,0,0]
+    rgb:
+      Red:   0
+      Green: 100
+      Blue:  0
   - button: Button2
     mode: Default
-    rgb: [0,0,0]
+    rgb:
+      Red:   100
+      Green: 0
+      Blue:  0
   - button: Button3
     mode: Default
-    rgb: [0,0,0]
+    rgb:
+      Red:   0
+      Green: 0
+      Blue:  100
