@@ -2,26 +2,129 @@ package main
 
 import (
   "os"
-  "flag"
+  "fmt"
+  "gopkg.in/urfave/cli.v2"
 )
 
+var (
+  device int
+)
+
+var app = &cli.App{
+    Name: "howler-cli",
+    Usage: "A command line utility for configuring a Howler Arcade controller",
+    Version: "0.0.1",
+
+    Flags: []cli.Flag{
+      &cli.IntFlag{
+        Name: "device",
+        Aliases: []string{"d"},
+        Value: 0,
+        Usage: "The Howler Controller to configure (0..n)",
+        Destination: &device,
+      },
+    },
+
+    Commands: []*cli.Command{
+      {
+        Name:        "set-led",
+        Usage:       "Change the color of one of the Button LEDs",
+        Description: "This comment is used to alter the color of a button/LED",
+
+        Flags: []cli.Flag{
+          &cli.StringFlag{
+            Name: "button",
+            Usage: "The button/led to change",
+          },
+          &cli.StringFlag{
+            Name: "color",
+            Usage: "The color to set the button/led to",
+          },
+          &cli.StringFlag{
+            Name: "scope",
+            Value: "current",
+            Usage: "The scope to change the color (current/default)",
+          },
+        },
+
+        Action: func(c *cli.Context) error {
+          fmt.Printf("Device: %d\n", device)
+          fmt.Printf(
+            "Button: %s, Color: %s, Scope: %s\n\n", 
+              c.String("button"),
+              c.String("color"),
+              c.String("scope"),
+          )
+          return nil
+        },
+      },
+
+      {
+        Name:        "set-input",
+        Usage:       "Change the color of one of the Button LEDs",
+        Description: "This command is used to alter the behavior of a button on the controller",
+
+        Flags: []cli.Flag{
+          &cli.StringFlag{
+            Name: "button",
+            Usage: "The button/led to change, eg: button1",
+          },
+          &cli.StringFlag{
+            Name: "mode",
+            Usage: "The context used by the button when emitting a value (joystick1 or 2, keyboard, mouse)",
+          },
+          &cli.StringFlag{
+            Name: "modifier",
+            Value: "none",
+            Usage: "In keyboard mode, the modifier to use in addition to the value. ([left|right] control, shift, alt, ui)",
+          },
+          &cli.StringFlag{
+            Name: "value",
+            Usage: "What value the button emits when pressed (context dependent)",
+          },
+        },
+
+        Action: func(c *cli.Context) error {
+          fmt.Printf("Device: %d\n", device)
+          fmt.Printf(
+            "Button: %s, Mode: %s, Modifier: %s, Value: %s\n\n", 
+              c.String("button"),
+              c.String("mode"),
+              c.String("modifier"),
+              c.String("value"),
+          )
+          return nil
+        },
+      },
+
+      {
+        Name:        "from-file",
+        Usage:       "Read settings from a yaml file",
+        Aliases:     []string{"read"},
+        Description: "This command allows you to change many settings that are represented in a yaml file",
+        Flags: []cli.Flag{
+          &cli.StringFlag{
+            Name: "path",
+            Aliases: []string{"file"},
+            Usage: "The fullpath to the yaml file containing the settings to be applied",
+          },
+        },
+
+        Action: func(c *cli.Context) error {
+          fmt.Printf("Device: %d\n", device)
+          fmt.Printf(
+            "Filename: %s\n\n",
+              c.String("path"),
+          )
+          return nil
+        },
+
+      },
+    },
+}
+
 func main() {
-  if len(os.Args) < 2 {
-    flag.PrintDefaults()
-    os.Exit(1)
-  }
-
-  switch os.Args[1] {
-    case "set-led":     parseLed()
-    case "set-input":   parseInput()
-    case "from-file":   parseYAML()
-
-    default:
-      flag.PrintDefaults()
-      os.Exit(1)
-  }
-
-  os.Exit(0)
+  app.Run(os.Args)
 }
 
 /*

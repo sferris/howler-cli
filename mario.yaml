@@ -1,5 +1,18 @@
 ---
 game: Mario Brothers
+colors:
+  blue:    {red: 0,   green: 0,   blue: 255}
+  crimson: {red: 220, green: 20,  blue: 60}
+  cyan:    {red: 0,   green: 255, blue: 255}
+  darkred: {red: 139, green: 0,   blue: 0}
+  gold:    {red: 255, green: 215, blue: 0}
+  green:   {red: 0,   green: 255, blue: 0}
+  orange:  {red: 255, green: 140, blue: 0}
+  pink:    {red: 255, green: 20,  blue: 147}
+  purple:  {red: 128, green: 0,   blue: 0}
+  red:     {red: 255, green: 0,   blue: 0}
+  teal:    {red: 0,   green: 128, blue: 128}
+  yellow:  {red: 255, green: 255, blue: 0}
 inputs:
   - button: Button1
     mode: Keyboard
@@ -12,19 +25,10 @@ inputs:
 leds:
   - button: Button1
     mode: Default
-    rgb:
-      Red:   0
-      Green: 100
-      Blue:  0
+    color: red
   - button: Button2
     mode: Default
-    rgb:
-      Red:   100
-      Green: 0
-      Blue:  0
+    color: blue
   - button: Button3
     mode: Default
-    rgb:
-      Red:   0
-      Green: 0
-      Blue:  100
+    color: green
