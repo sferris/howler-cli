@@ -3,6 +3,7 @@ package main
 import (
   "os"
   "fmt"
+
   "gopkg.in/urfave/cli.v2"
 )
 
@@ -42,20 +43,17 @@ var app = &cli.App{
           },
           &cli.StringFlag{
             Name: "scope",
-            Value: "current",
             Usage: "The scope to change the color (current/default)",
           },
         },
 
         Action: func(c *cli.Context) error {
-          fmt.Printf("Device: %d\n", device)
-          fmt.Printf(
-            "Button: %s, Color: %s, Scope: %s\n\n", 
-              c.String("button"),
-              c.String("color"),
-              c.String("scope"),
-          )
-          return nil
+          led := LedStruct{
+            Button: c.String("button"),
+            Color:  c.String("color"),
+            Scope:  c.String("scope"),
+          }
+          return led.Process()
         },
       },
 
@@ -75,7 +73,6 @@ var app = &cli.App{
           },
           &cli.StringFlag{
             Name: "modifier",
-            Value: "none",
             Usage: "In keyboard mode, the modifier to use in addition to the value. ([left|right] control, shift, alt, ui)",
           },
           &cli.StringFlag{
@@ -86,14 +83,13 @@ var app = &cli.App{
 
         Action: func(c *cli.Context) error {
           fmt.Printf("Device: %d\n", device)
-          fmt.Printf(
-            "Button: %s, Mode: %s, Modifier: %s, Value: %s\n\n", 
-              c.String("button"),
-              c.String("mode"),
-              c.String("modifier"),
-              c.String("value"),
-          )
-          return nil
+          input := InputStruct{
+            Button:    c.String("button"),
+            Mode:      c.String("mode"),
+            Modifier:  c.String("modifier"),
+            Value:     c.String("value"),
+          }
+          return input.Process()
         },
       },
 
@@ -112,11 +108,10 @@ var app = &cli.App{
 
         Action: func(c *cli.Context) error {
           fmt.Printf("Device: %d\n", device)
-          fmt.Printf(
-            "Filename: %s\n\n",
-              c.String("path"),
-          )
-          return nil
+          file := FileStruct{
+            Path: c.String("path"),
+          }
+          return file.Process()
         },
 
       },
@@ -124,65 +119,8 @@ var app = &cli.App{
 }
 
 func main() {
-  app.Run(os.Args)
-}
-
-/*
-  //howler.DumpDevices()
-
-  device, err := howler.OpenDevice(0)
-  defer func() {
-    device.Close()
-  }()
-
+  err := app.Run(os.Args)
   if err != nil {
-    fmt.Println(err.Error())
-    os.Exit(1)
+    panic(err)
   }
-
-  button := howler.Button26
-
-  fmt.Printf("Got here: %d\n", 1);
-  device.SetDefaultLEDColor(button,"orange")
-  time.Sleep(time.Second);
-
-  fmt.Printf("Got here: %d\n", 2);
-  device.SetLEDColor(button,"red")
-  time.Sleep(time.Second);
-
-  fmt.Printf("Got here: %d\n", 3);
-  device.SetLEDColor(button,"green")
-  time.Sleep(time.Second);
-
-  fmt.Printf("Got here: %d\n", 4);
-  device.SetLEDColor(button,"blue")
-  time.Sleep(time.Second);
-
-  for i := 0; i < int(howler.ButtonMax); i++ {
-    c, _ := device.GetLEDColor(howler.Buttons(i))
-    fmt.Printf("%03d: %s\n", i, c.ToHexString())
-  }
-
-  fw, _ := device.GetFWRelease()
-  fmt.Printf("Firmware: %d.%d\n", fw.Major, fw.Minor)
-
-  for i := 0; i < 200; i++ {
-    data, err := device.ReadAccel()
-    if err != nil {
-      fmt.Println(err.Error())
-    } else {
-      fmt.Println(data.String())
-    }
-  }
-
- device.SetInput(howler.InputButton26, howler.ModeKeyboard, howler.KeyZ, howler.ModifierNone)
- input, err := device.GetInput(howler.InputButton26)
- input.Dump()
-
-  for i := 0; i < int(howler.InputMax); i++ {
-   _, err := device.GetInput(howler.Inputs(i))
-    if err != nil {
-      fmt.Println(err.Error())
-    }
-  }
-*/
+}
