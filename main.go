@@ -64,8 +64,8 @@ var app = &cli.App{
 
         Flags: []cli.Flag{
           &cli.StringFlag{
-            Name: "button",
-            Usage: "The button/led to change, eg: button1",
+            Name: "input",
+            Usage: "The input to alter, eg: joy1up, joy1down, button1, etc",
           },
           &cli.StringFlag{
             Name: "mode",
@@ -83,7 +83,7 @@ var app = &cli.App{
 
         Action: func(c *cli.Context) error {
           input := InputStruct{
-            Button:    c.String("button"),
+            Input:     c.String("input"),
             Mode:      c.String("mode"),
             Modifier:  c.String("modifier"),
             Value:     c.String("value"),

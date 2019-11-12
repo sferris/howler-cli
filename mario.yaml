@@ -3,17 +3,17 @@ game: Mario Brothers
 colors:
   foo:  {red: 123, green: 123, blue: 123}
 inputs:
-  - button: Button1
+  - input: Button1
     mode: joystick1
     value: 1
-  - button: Button2
+  - input: Button2
     mode: joystick2
     value: 2
-  - button: Button3
+  - input: Button3
     mode: Keyboard
     modifier: None
     value: A
-  - button: Button4
+  - input: Button4
     mode: Mouse
     value: 1
 leds:

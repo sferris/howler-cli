@@ -6,7 +6,7 @@ import (
 )
 
 type InputStruct struct {
-  Button    string `yaml:"button"`
+  Input     string `yaml:"input"`
   Mode      string `yaml:"mode"`
   Modifier  string `yaml:"modifier"`
   Value     string `yaml:"value"`
@@ -16,7 +16,7 @@ func (input *InputStruct) Process() error {
   if input.Modifier == "" {
     input.Modifier = "none"
   }
-  if input.Button == "" {
+  if input.Input == "" {
     return fmt.Errorf("Mandatory button option is missing")
   }
 
