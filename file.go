@@ -17,7 +17,6 @@ type FileStruct struct {
   Colors  *map[string]color.RGBStruct  `yaml: "colors,omitempty"`
   Leds    []LedStruct                  `yaml: "leds"`
   Inputs  []InputStruct                `yaml: "inputs"`
-
 }
 
 func (file FileStruct) Process() error {

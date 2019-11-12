@@ -4,13 +4,18 @@ colors:
   foo:  {red: 123, green: 123, blue: 123}
 inputs:
   - button: Button1
+    mode: joystick1
+    value: 1
+  - button: Button2
+    mode: joystick2
+    value: 2
+  - button: Button3
     mode: Keyboard
     modifier: None
     value: A
-  - button: Button2
-    mode: Keyboard
-    modifier: None
-    value: B
+  - button: Button4
+    mode: Mouse
+    value: 1
 leds:
   - button: Button1
     scope: Default

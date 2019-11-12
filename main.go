@@ -2,7 +2,7 @@ package main
 
 import (
   "os"
-  "fmt"
+  "log"
 
   "gopkg.in/urfave/cli.v2"
 )
@@ -82,7 +82,6 @@ var app = &cli.App{
         },
 
         Action: func(c *cli.Context) error {
-          fmt.Printf("Device: %d\n", device)
           input := InputStruct{
             Button:    c.String("button"),
             Mode:      c.String("mode"),
@@ -107,7 +106,6 @@ var app = &cli.App{
         },
 
         Action: func(c *cli.Context) error {
-          fmt.Printf("Device: %d\n", device)
           file := FileStruct{
             Path: c.String("path"),
           }
@@ -121,6 +119,6 @@ var app = &cli.App{
 func main() {
   err := app.Run(os.Args)
   if err != nil {
-    panic(err)
+    log.Fatal(err.Error())
   }
 }
