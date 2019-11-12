@@ -2,7 +2,8 @@ package main
 
 import (
   "fmt"
-  //"github.com/sferris/howler-controller/color"
+
+  "github.com/sferris/howler-controller/color"
 )
 
 type LedStruct struct {
@@ -12,7 +13,7 @@ type LedStruct struct {
 }
 
 func (led LedStruct) Process() error {
-  if rgb, ok := FetchRGB(led.Color); ok {
+  if rgb, ok := color.Lookup(led.Color); ok {
     fmt.Printf("Button: %s, Color: %s, Scope: %s\n\n", led.Button, rgb.String(), led.Scope)
   }
   return nil

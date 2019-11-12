@@ -1,7 +1,7 @@
 ---
 game: Mario Brothers
 colors:
-  foo:  {red: 255, green: 255, blue: 255}
+  foo:  {red: 123, green: 123, blue: 123}
 inputs:
   - button: Button1
     mode: Keyboard
