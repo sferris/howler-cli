@@ -1,7 +1,7 @@
 package main
 
 import (
-  _"fmt"
+  "log"
   "io/ioutil"
 
   "gopkg.in/yaml.v2"
@@ -33,7 +33,10 @@ func (file FileStruct) Process() error {
   }
 
   for _, input := range file.Inputs {
-    input.Process();
+    err := input.Process();
+    if err != nil {
+      log.Println(err.Error())
+    }
   }
 
   for _, led := range file.Leds {
