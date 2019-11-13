@@ -3,10 +3,13 @@ package main
 import (
   "fmt"
   "strings"
+  _"strconv"
+
+  howler "github.com/sferris/howler-controller"
 )
 
 type InputStruct struct {
-  Input     string `yaml:"input"`
+  Name      string `yaml:"input"`
   Mode      string `yaml:"mode"`
   Modifier  string `yaml:"modifier"`
   Value     string `yaml:"value"`
@@ -16,8 +19,8 @@ func (input *InputStruct) Process() error {
   if input.Modifier == "" {
     input.Modifier = "none"
   }
-  if input.Input == "" {
-    return fmt.Errorf("Mandatory button option is missing")
+  if input.Name == "" {
+    return fmt.Errorf("Mandatory input option is missing")
   }
 
   var err error
@@ -42,13 +45,150 @@ func (input *InputStruct) Process() error {
 
 func (input *InputStruct) setJoystickInput() error {
   fmt.Println("Setting joystick");
+
+  var ok bool
+  var name  howler.Inputs
+  var mode  howler.Modes
+  var value howler.InputValues
+  mod := howler.ModifierNone
+
+  name, ok = howler.Input(input.Name)
+  if !ok {
+    return fmt.Errorf(
+      "Invalid input name: '%s': ",
+      input.Name,
+    )
+  }
+  mode, ok = howler.Mode(input.Mode)
+  if !ok {
+    return fmt.Errorf(
+      "Invalid input mode: '%s': ",
+      input.Mode,
+    )
+  }
+  value, ok = howler.JoystickButton(input.Value)
+  if !ok {
+    return fmt.Errorf(
+      "Invalid joystick button number for input: '%s': (Must be 1-32)", 
+      input.Value,
+    )
+  }
+
+  controller, err := howler.OpenDevice(device)
+  if err != nil {
+    return err
+  }
+
+  defer func() { controller.Close() }()
+
+  result, err := controller.SetInput(name, mode, value, mod)
+  if err != nil {
+    return err
+  }
+
+  result.Dump()
+
   return nil
 }
+
 func (input *InputStruct) setKeyboardInput() error {
-  fmt.Println("Setting keyboard");
+  fmt.Printf("Setting keyboard: %+v\n\n", input);
+
+  var ok bool
+  var name  howler.Inputs
+  var mode  howler.Modes
+  var value howler.InputValues
+  var mod   howler.Modifiers
+
+  name, ok = howler.Input(input.Name)
+  if !ok {
+    return fmt.Errorf(
+      "Invalid input name: '%s': ",
+      input.Name,
+    )
+  }
+  mode, ok = howler.Mode(input.Mode)
+  if !ok {
+    return fmt.Errorf(
+      "Invalid input mode: '%s': ",
+      input.Mode,
+    )
+  }
+  value, ok = howler.Key(input.Value)
+  if !ok {
+    return fmt.Errorf(
+      "Invalid keyboard code for input: '%s': ",
+      input.Value,
+    )
+  }
+  mod, ok = howler.Modifier(input.Modifier)
+  if !ok {
+    return fmt.Errorf(
+      "Invalid keyboard modifier for input: '%s': ",
+      input.Modifier,
+    )
+  }
+
+  controller, err := howler.OpenDevice(device)
+  if err != nil {
+    return err
+  }
+
+  defer func() { controller.Close() }()
+
+  result, err := controller.SetInput(name, mode, value, mod)
+  if err != nil {
+    return err
+  }
+
+  result.Dump()
+
   return nil
 }
 func (input *InputStruct) setMouseInput() error {
   fmt.Println("Setting mouse");
+
+  var ok bool
+  var name  howler.Inputs
+  var mode  howler.Modes
+  var value howler.InputValues
+  mod := howler.ModifierNone
+
+  name, ok = howler.Input(input.Name)
+  if !ok {
+    return fmt.Errorf(
+      "Invalid input name: '%s': ",
+      input.Name,
+    )
+  }
+  mode, ok = howler.Mode(input.Mode)
+  if !ok {
+    return fmt.Errorf(
+      "Invalid input mode: '%s': ",
+      input.Mode,
+    )
+  }
+  value, ok = howler.MouseButton(input.Value)
+  if !ok {
+    return fmt.Errorf(
+      "Invalid mouse button number for input: '%s': ",
+      input.Value,
+    )
+  }
+
+  controller, err := howler.OpenDevice(device)
+  if err != nil {
+    return err
+  }
+
+  defer func() { controller.Close() }()
+
+  result, err := controller.SetInput(name, mode, value, mod)
+  if err != nil {
+    return err
+  }
+
+  result.Dump()
+
   return nil
 }

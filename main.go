@@ -30,7 +30,7 @@ var app = &cli.App{
       {
         Name:        "set-led",
         Usage:       "Change the color of one of the Button LEDs",
-        Description: "This comment is used to alter the color of a button/LED",
+        Description: "This command is used to alter the color of a button/LED",
 
         Flags: []cli.Flag{
           &cli.StringFlag{
@@ -43,7 +43,7 @@ var app = &cli.App{
           },
           &cli.StringFlag{
             Name: "scope",
-            Usage: "The scope to change the color (current/default)",
+            Usage: "The scope to change the color (current, or default)",
           },
         },
 
@@ -59,8 +59,8 @@ var app = &cli.App{
 
       {
         Name:        "set-input",
-        Usage:       "Change the color of one of the Button LEDs",
-        Description: "This command is used to alter the behavior of a button on the controller",
+        Usage:       "Alter the behavior of an input on the controller",
+        Description: "This command is used to alter the behavior of an input on the controller",
 
         Flags: []cli.Flag{
           &cli.StringFlag{
@@ -69,11 +69,11 @@ var app = &cli.App{
           },
           &cli.StringFlag{
             Name: "mode",
-            Usage: "The context used by the button when emitting a value (joystick1 or 2, keyboard, mouse)",
+            Usage: "The context used by the button when emitting a value (joystick1 or 2, keyboard, or mouse)",
           },
           &cli.StringFlag{
             Name: "modifier",
-            Usage: "In keyboard mode, the modifier to use in addition to the value. ([left|right] control, shift, alt, ui)",
+            Usage: "In keyboard mode, the modifier to use in addition to the value. ([left|right] control, shift, alt, or ui)",
           },
           &cli.StringFlag{
             Name: "value",
@@ -83,7 +83,7 @@ var app = &cli.App{
 
         Action: func(c *cli.Context) error {
           input := InputStruct{
-            Input:     c.String("input"),
+            Name:      c.String("input"),
             Mode:      c.String("mode"),
             Modifier:  c.String("modifier"),
             Value:     c.String("value"),

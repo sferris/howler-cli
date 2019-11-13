@@ -18,11 +18,11 @@ inputs:
     value: 1
 leds:
   - button: Button1
-    scope: Default
+    scope: current
     color: "rgb: 100,0,0"
   - button: Button2
-    scope: Default
+    scope: current
     color: green
   - button: Button3
-    scope: Default
+    scope: current
     color: foo
