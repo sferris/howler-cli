@@ -9,7 +9,7 @@ import (
 )
 
 type LEDStruct struct {
-  Button string `yaml:"button"`
+  Name   string `yaml:"led"`
   Scope  string `yaml:"scope"`
   Color  string `yaml:"color"`
 }
@@ -36,17 +36,17 @@ func (led LEDStruct) Process() error {
 }
 
 func (led LEDStruct) setLEDCurrent() error {
-  fmt.Printf("Setting %s LED color: %s\n", led.Button, led.Color);
+  fmt.Printf("Setting %s LED color: %s\n", led.Name, led.Color);
 
   var ok bool
-  var button  howler.Leds
-  var rgb     color.RGBStruct
+  var name  howler.Leds
+  var rgb   color.RGBStruct
 
-  button, ok = howler.Button(led.Button)
+  name, ok = howler.Led(led.Name)
   if !ok {
     return fmt.Errorf(
       "Invalid LED Button reference: '%s': ",
-      led.Button,
+      led.Name,
     )
   }
   rgb, ok = color.Lookup(led.Color); 
@@ -54,7 +54,7 @@ func (led LEDStruct) setLEDCurrent() error {
     return fmt.Errorf("Invalid color value: %s", led.Color)
   }
 
-  err := controller.SetLEDRGB(button, rgb.Red, rgb.Green, rgb.Blue)
+  err := controller.SetLEDRGB(name, rgb.Red, rgb.Green, rgb.Blue)
   if err != nil {
     return err
   }
@@ -65,17 +65,17 @@ func (led LEDStruct) setLEDCurrent() error {
 }
 
 func (led LEDStruct) setLEDDefault() error {
-  fmt.Printf("Setting %s LED color: %s\n", led.Button, led.Color);
+  fmt.Printf("Setting %s LED color: %s\n", led.Name, led.Color);
 
   var ok bool
-  var button  howler.Leds
-  var rgb     color.RGBStruct
+  var name  howler.Leds
+  var rgb   color.RGBStruct
 
-  button, ok = howler.Button(led.Button)
+  name, ok = howler.Led(led.Name)
   if !ok {
     return fmt.Errorf(
       "Invalid LED Button reference: '%s': ",
-      led.Button,
+      led.Name,
     )
   }
   rgb, ok = color.Lookup(led.Color); 
@@ -83,7 +83,7 @@ func (led LEDStruct) setLEDDefault() error {
     return fmt.Errorf("Invalid color value: %s", led.Color)
   }
 
-  result, err := controller.SetDefaultLEDRGB(button, rgb.Red, rgb.Green, rgb.Blue)
+  result, err := controller.SetDefaultLEDRGB(name, rgb.Red, rgb.Green, rgb.Blue)
   if err != nil {
     return err
   }

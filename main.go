@@ -50,7 +50,7 @@ var app = &cli.App{
 
         Action: func(c *cli.Context) error {
           led := LEDStruct{
-            Button: c.String("button"),
+            Name:   c.String("button"),
             Color:  c.String("color"),
             Scope:  c.String("scope"),
           }
