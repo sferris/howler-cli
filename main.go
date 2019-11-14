@@ -5,6 +5,7 @@ import (
   "log"
 
   "gopkg.in/urfave/cli.v2"
+  howler "github.com/sferris/howler-controller"
 )
 
 var (
@@ -48,7 +49,7 @@ var app = &cli.App{
         },
 
         Action: func(c *cli.Context) error {
-          led := LedStruct{
+          led := LEDStruct{
             Button: c.String("button"),
             Color:  c.String("color"),
             Scope:  c.String("scope"),
@@ -116,8 +117,18 @@ var app = &cli.App{
     },
 }
 
+var controller *howler.HowlerDevice
+
 func main() {
-  err := app.Run(os.Args)
+  var err error
+  controller, err = howler.OpenDevice(device)
+  if err != nil {
+    log.Fatal(err.Error())
+  }
+
+  defer func() { controller.Close() }()
+
+  err = app.Run(os.Args)
   if err != nil {
     log.Fatal(err.Error())
   }

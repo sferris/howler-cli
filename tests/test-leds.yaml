@@ -1,0 +1,31 @@
+---
+game: Mario Brothers
+leds:
+  - button: button26
+    color: blue
+  - button: button26
+    color: crimson
+  - button: button26
+    color: cyan
+  - button: button26
+    color: darkred
+  - button: button26
+    color: gold
+  - button: button26
+    color: green
+  - button: button26
+    color: orange
+  - button: button26
+    color: pink
+  - button: button26
+    color: purple
+  - button: button26
+    color: red
+  - button: button26
+    color: teal
+  - button: button26
+    color: yellow
+  - button: button26
+    color: black
+  - button: button26
+    color: white

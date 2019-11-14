@@ -74,13 +74,6 @@ func (input *InputStruct) setJoystickInput() error {
     )
   }
 
-  controller, err := howler.OpenDevice(device)
-  if err != nil {
-    return err
-  }
-
-  defer func() { controller.Close() }()
-
   result, err := controller.SetInput(name, mode, value, mod)
   if err != nil {
     return err
@@ -129,13 +122,6 @@ func (input *InputStruct) setKeyboardInput() error {
     )
   }
 
-  controller, err := howler.OpenDevice(device)
-  if err != nil {
-    return err
-  }
-
-  defer func() { controller.Close() }()
-
   result, err := controller.SetInput(name, mode, value, mod)
   if err != nil {
     return err
@@ -175,13 +161,6 @@ func (input *InputStruct) setMouseInput() error {
       input.Value,
     )
   }
-
-  controller, err := howler.OpenDevice(device)
-  if err != nil {
-    return err
-  }
-
-  defer func() { controller.Close() }()
 
   result, err := controller.SetInput(name, mode, value, mod)
   if err != nil {

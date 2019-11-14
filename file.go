@@ -15,7 +15,7 @@ type FileStruct struct {
 
   Game    string                       `yaml: "game"`
   Colors  *map[string]color.RGBStruct  `yaml: "colors,omitempty"`
-  Leds    []LedStruct                  `yaml: "leds"`
+  Leds    []LEDStruct                  `yaml: "leds"`
   Inputs  []InputStruct                `yaml: "inputs"`
 }
 

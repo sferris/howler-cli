@@ -2,32 +2,93 @@ package main
 
 import (
   "fmt"
+  "strings"
 
+  "github.com/sferris/howler-controller"
   "github.com/sferris/howler-controller/color"
 )
 
-type LedStruct struct {
+type LEDStruct struct {
   Button string `yaml:"button"`
   Scope  string `yaml:"scope"`
   Color  string `yaml:"color"`
 }
 
-func (led LedStruct) Process() error {
+func (led LEDStruct) Process() error {
+  var err error
+
   if led.Scope == "" {
     led.Scope = "current"
   }
 
-  if led.Button == "" {
-    return fmt.Errorf("Mandtory --button option is missing")
+  switch strings.ToLower(led.Scope) {
+    case "current":
+      err = led.setLEDCurrent();
+
+    case "default":
+      err = led.setLEDDefault();
+
+    default:
+      return fmt.Errorf("Invalid LED Scope: %s\n", led.Scope)
   }
 
-  rgb, ok := color.Lookup(led.Color); 
-  if led.Color == "" {
-    return fmt.Errorf("Mandtory color option is missing")
-  } else if !ok {
-    return fmt.Errorf("Invalid color given: %s", led.Color)
+  return err
+}
+
+func (led LEDStruct) setLEDCurrent() error {
+  fmt.Printf("Setting %s LED color: %s\n", led.Button, led.Color);
+
+  var ok bool
+  var button  howler.Leds
+  var rgb     color.RGBStruct
+
+  button, ok = howler.Button(led.Button)
+  if !ok {
+    return fmt.Errorf(
+      "Invalid LED Button reference: '%s': ",
+      led.Button,
+    )
+  }
+  rgb, ok = color.Lookup(led.Color); 
+  if !ok {
+    return fmt.Errorf("Invalid color value: %s", led.Color)
   }
 
-  fmt.Printf("Button: %s, Color: %s, Scope: %s\n\n", led.Button, rgb.String(), led.Scope)
+  err := controller.SetLEDRGB(button, rgb.Red, rgb.Green, rgb.Blue)
+  if err != nil {
+    return err
+  }
+
+  //result.Dump()
+
+  return nil
+}
+
+func (led LEDStruct) setLEDDefault() error {
+  fmt.Printf("Setting %s LED color: %s\n", led.Button, led.Color);
+
+  var ok bool
+  var button  howler.Leds
+  var rgb     color.RGBStruct
+
+  button, ok = howler.Button(led.Button)
+  if !ok {
+    return fmt.Errorf(
+      "Invalid LED Button reference: '%s': ",
+      led.Button,
+    )
+  }
+  rgb, ok = color.Lookup(led.Color); 
+  if !ok {
+    return fmt.Errorf("Invalid color value: %s", led.Color)
+  }
+
+  result, err := controller.SetDefaultLEDRGB(button, rgb.Red, rgb.Green, rgb.Blue)
+  if err != nil {
+    return err
+  }
+
+  result.Dump()
+
   return nil
 }

@@ -1,0 +1,63 @@
+---
+game: Turn off all LEDs
+leds:
+  - button: Joy1
+    color: off
+  - button: Joy2
+    color: off
+  - button: Joy3
+    color: off
+  - button: Joy4
+    color: off
+  - button: Button1
+    color: off
+  - button: Button2
+    color: off
+  - button: Button3
+    color: off
+  - button: Button4
+    color: off
+  - button: Button5
+    color: off
+  - button: Button6
+    color: off
+  - button: Button7
+    color: off
+  - button: Button8
+    color: off
+  - button: Button9
+    color: off
+  - button: Button10
+    color: off
+  - button: Button11
+    color: off
+  - button: Button12
+    color: off
+  - button: Button13
+    color: off
+  - button: Button14
+    color: off
+  - button: Button15
+    color: off
+  - button: Button16
+    color: off
+  - button: Button17
+    color: off
+  - button: Button18
+    color: off
+  - button: Button19
+    color: off
+  - button: Button20
+    color: off
+  - button: Button21
+    color: off
+  - button: Button22
+    color: off
+  - button: Button23
+    color: off
+  - button: Button24
+    color: off
+  - button: Button25
+    color: off
+  - button: Button26
+    color: off
