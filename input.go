@@ -2,8 +2,8 @@ package main
 
 import (
   "fmt"
+  "log"
   "strings"
-  _"strconv"
 
   howler "github.com/sferris/howler-controller"
 )
@@ -44,7 +44,7 @@ func (input *InputStruct) Process() error {
 }
 
 func (input *InputStruct) setJoystickInput() error {
-  fmt.Println("Setting joystick");
+  log.Println("Setting joystick");
 
   var ok bool
   var name  howler.Inputs
@@ -85,7 +85,7 @@ func (input *InputStruct) setJoystickInput() error {
 }
 
 func (input *InputStruct) setKeyboardInput() error {
-  fmt.Printf("Setting keyboard: %+v\n\n", input);
+  log.Printf("Setting keyboard: %+v\n\n", input);
 
   var ok bool
   var name  howler.Inputs
@@ -132,7 +132,7 @@ func (input *InputStruct) setKeyboardInput() error {
   return nil
 }
 func (input *InputStruct) setMouseInput() error {
-  fmt.Println("Setting mouse");
+  log.Println("Setting mouse");
 
   var ok bool
   var name  howler.Inputs

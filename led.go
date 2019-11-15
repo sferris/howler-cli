@@ -2,6 +2,7 @@ package main
 
 import (
   "fmt"
+  "log"
   "strings"
 
   "github.com/sferris/howler-controller"
@@ -36,7 +37,7 @@ func (led LEDStruct) Process() error {
 }
 
 func (led LEDStruct) setLEDCurrent() error {
-  fmt.Printf("Setting %s LED color: %s\n", led.Name, led.Color);
+  log.Printf("Setting %s LED color: %s\n", led.Name, led.Color);
 
   var ok bool
   var name  howler.Leds
@@ -65,7 +66,7 @@ func (led LEDStruct) setLEDCurrent() error {
 }
 
 func (led LEDStruct) setLEDDefault() error {
-  fmt.Printf("Setting %s LED color: %s\n", led.Name, led.Color);
+  log.Printf("Setting %s LED color: %s\n", led.Name, led.Color);
 
   var ok bool
   var name  howler.Leds
@@ -83,12 +84,12 @@ func (led LEDStruct) setLEDDefault() error {
     return fmt.Errorf("Invalid color value: %s", led.Color)
   }
 
-  result, err := controller.SetDefaultLEDRGB(name, rgb.Red, rgb.Green, rgb.Blue)
+  _, err := controller.SetDefaultLEDRGB(name, rgb.Red, rgb.Green, rgb.Blue)
   if err != nil {
     return err
   }
 
-  result.Dump()
+  //log.Printf("%s\n", result.Dump())
 
   return nil
 }

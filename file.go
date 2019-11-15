@@ -40,7 +40,10 @@ func (file FileStruct) Process() error {
   }
 
   for _, led := range file.Leds {
-    led.Process();
+    err := led.Process();
+    if err != nil {
+      log.Println(err.Error())
+    }
   }
 
   return nil

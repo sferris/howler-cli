@@ -2,62 +2,92 @@
 game: Turn off all LEDs
 leds:
   - led: Joy1
+    scope: default
     color: off
   - led: Joy2
+    scope: default
     color: off
   - led: Joy3
+    scope: default
     color: off
   - led: Joy4
+    scope: default
     color: off
   - led: Button1
+    scope: default
     color: off
   - led: Button2
+    scope: default
     color: off
   - led: Button3
+    scope: default
     color: off
   - led: Button4
+    scope: default
     color: off
   - led: Button5
+    scope: default
     color: off
   - led: Button6
+    scope: default
     color: off
   - led: Button7
+    scope: default
     color: off
   - led: Button8
+    scope: default
     color: off
   - led: Button9
+    scope: default
     color: off
   - led: Button10
+    scope: default
     color: off
   - led: Button11
+    scope: default
     color: off
   - led: Button12
+    scope: default
     color: off
   - led: Button13
+    scope: default
     color: off
   - led: Button14
+    scope: default
     color: off
   - led: Button15
+    scope: default
     color: off
   - led: Button16
+    scope: default
     color: off
   - led: Button17
+    scope: default
     color: off
   - led: Button18
+    scope: default
     color: off
   - led: Button19
+    scope: default
     color: off
   - led: Button20
+    scope: default
     color: off
   - led: Button21
+    scope: default
     color: off
   - led: Button22
+    scope: default
     color: off
   - led: Button23
+    scope: default
     color: off
   - led: Button24
+    scope: default
     color: off
   - led: Button25
+    scope: default
     color: off
   - led: Button26
+    scope: default
     color: off
