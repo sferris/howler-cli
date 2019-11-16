@@ -22,6 +22,17 @@ func (led LEDStruct) Process() error {
     led.Scope = "current"
   }
 
+/*
+  if controller == nil {
+    log.Printf("Opening howler device: %d\n", device)
+
+    controller, err = howler.OpenDevice(device)
+    if err != nil {
+      log.Fatal(err.Error())
+    }
+  }
+*/
+
   switch strings.ToLower(led.Scope) {
     case "current":
       err = led.setLEDCurrent();
