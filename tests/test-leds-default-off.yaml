@@ -91,3 +91,9 @@ leds:
   - led: Button26
     scope: default
     color: off
+  - led: HP1
+    scope: default
+    color: off
+  - led: HP2
+    scope: default
+    color: off

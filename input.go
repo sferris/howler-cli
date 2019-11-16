@@ -15,6 +15,15 @@ type InputStruct struct {
   Value     string `yaml:"value"`
 }
 
+func (input *InputStruct) String() string {
+  return fmt.Sprintf(
+    "Input: %s, Type: %s, Modifier: %s, Value: %s",
+      input.Name,
+      input.Type,
+      input.Modifier,
+      input.Value)
+}
+
 func (input *InputStruct) Process() error {
   var err error
 
@@ -45,7 +54,7 @@ func (input *InputStruct) Process() error {
 }
 
 func (input *InputStruct) setKeyboardInput() error {
-  log.Printf("Setting keyboard: %s", input);
+  log.Printf("Setting keyboard: %s\n", input);
 
   var ok bool
   var name  howler.Inputs
@@ -89,7 +98,7 @@ func (input *InputStruct) setKeyboardInput() error {
 }
 
 func (input *InputStruct) setJoystickInput() error {
-  log.Printf("Setting joystick: %s", input);
+  log.Printf("Setting joystick: %s\n", input);
 
   var ok bool
   var name      howler.Inputs
@@ -134,7 +143,7 @@ func (input *InputStruct) setJoystickInput() error {
 }
 
 func (input *InputStruct) setMouseInput() error {
-  log.Printf("Setting mouse: %s", input);
+  log.Printf("Setting mouse: %s\n", input);
 
   var ok bool
   var name   howler.Inputs

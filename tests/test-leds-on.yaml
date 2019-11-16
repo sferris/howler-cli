@@ -61,3 +61,7 @@ leds:
     color: on
   - led: Button26
     color: on
+  - led: HP1
+    color: on
+  - led: HP2
+    color: on

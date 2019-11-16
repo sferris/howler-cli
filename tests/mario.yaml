@@ -3,26 +3,26 @@ game: Mario Brothers
 colors:
   foo:  {red: 123, green: 123, blue: 123}
 inputs:
-  - input: Button1
-    mode: joystick1
+  - input: button1
+    type: joystick1
     value: 1
-  - input: Button2
-    mode: joystick2
+  - input: button2
+    type: joystick2
     value: 2
-  - input: Button3
-    mode: Keyboard
-    modifier: None
-    value: A
-  - input: Button4
-    mode: Mouse
-    value: 1
+  - input: button3
+    type: keyboard
+    modifier: left-shift
+    value: a
+  - input: button4
+    type: mouse
+    value: left
 leds:
-  - button: Button1
+  - led: button26
     scope: current
     color: "rgb: 100,0,0"
-  - button: Button2
+  - led: button26
     scope: current
     color: green
-  - button: Button3
+  - led: button26
     scope: current
     color: foo

@@ -22,7 +22,6 @@ func (led LEDStruct) Process() error {
     led.Scope = "current"
   }
 
-/*
   if controller == nil {
     log.Printf("Opening howler device: %d\n", device)
 
@@ -31,7 +30,6 @@ func (led LEDStruct) Process() error {
       log.Fatal(err.Error())
     }
   }
-*/
 
   switch strings.ToLower(led.Scope) {
     case "current":
