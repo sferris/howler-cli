@@ -4,6 +4,7 @@ import (
   "os"
   "log"
   "fmt"
+  "io/ioutil"
 
   "strings"
 
@@ -199,7 +200,7 @@ var app = &cli.App{
         Description: "This shows the list of valid keyboard key names",
 
         Action: func(c *cli.Context) error {
-          fmt.Printf("Valid keyboard keys:\n")
+          fmt.Println("Valid keyboard keys:")
           fmt.Println(strings.Join(howler.KeyNames[howler.KeyMin:], ", "))
           return nil
         },
@@ -215,7 +216,7 @@ var app = &cli.App{
         Description: "This shows the list of valid keyboard modifier names",
 
         Action: func(c *cli.Context) error {
-          fmt.Printf("Valid keyboard modifier names:\n")
+          fmt.Println("Valid keyboard modifier names:")
           fmt.Println(strings.Join(howler.ModifierNames[howler.ModifierMin:], ", "))
           return nil
         },
@@ -231,7 +232,7 @@ var app = &cli.App{
         Description: "This shows the list of valid mouse buttons",
 
         Action: func(c *cli.Context) error {
-          fmt.Printf("Valid mouse buttons:\n")
+          fmt.Println("Valid mouse buttons:")
           fmt.Println(strings.Join(howler.MouseNames[howler.MouseMin:], ", "))
           return nil
         },
@@ -247,18 +248,34 @@ var app = &cli.App{
         Description: "This shows the list of valid joystick buttons",
 
         Action: func(c *cli.Context) error {
-          fmt.Printf("Valid joystick buttons:\n")
+          fmt.Println("Valid joystick buttons:")
           fmt.Println(strings.Join(howler.JoystickButtonNames[howler.JoyMin:], ", "))
           return nil
         },
       },
 
+      // \
+      //  > Show firmware version
+      // /
+      {
+        Name:        "firmware",
+        Usage:       "Show the firmware revision information",
+        Aliases:     []string{"show-firmward"},
+        Description: "This shows the list of valid joystick buttons",
+
+        Action: func(c *cli.Context) error {
+          return ShowFirmware()
+        },
+      },
     },
 }
 
 var controller *howler.HowlerDevice
 
 func main() {
+  log.SetFlags(0)
+  log.SetOutput(ioutil.Discard)
+
   var err error
 
   err = app.Run(os.Args)
