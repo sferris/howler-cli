@@ -16,20 +16,7 @@ type InputStruct struct {
 }
 
 func (input *InputStruct) Process() error {
-  if input.Modifier == "" {
-    input.Modifier = "none"
-  }
-  if input.Name == "" {
-    return fmt.Errorf("Mandatory input option is missing")
-  }
-
-  var ok bool
   var err error
-  var inputType howler.InputTypes
-
-  if inputType, ok = howler.ToInputType(input.Type); !ok {
-    return fmt.Errorf("Invalid input type: %s\n", input.Type)
-  }
 
   if controller == nil {
     log.Printf("Opening howler device: %d\n", device)
@@ -39,6 +26,8 @@ func (input *InputStruct) Process() error {
       log.Fatal(err.Error())
     }
   }
+
+  inputType, _ := howler.ToInputType(input.Type)
  
   switch inputType {
     case howler.TypeJoystick1: fallthrough
@@ -56,14 +45,18 @@ func (input *InputStruct) Process() error {
 }
 
 func (input *InputStruct) setKeyboardInput() error {
-  log.Printf("Setting keyboard: %+v\n\n", input);
+  log.Printf("Setting keyboard: %s", input);
 
   var ok bool
   var name  howler.Inputs
   var key   howler.Keys
-  var mod   howler.Modifiers
 
-  name, ok = howler.Input(input.Name)
+  // defaults
+  if input.Modifier == "" {
+    input.Modifier = "none"
+  }
+
+  name, ok = howler.ToInput(input.Name)
   if !ok {
     return fmt.Errorf(
       "Invalid input name: '%s': ",
@@ -77,8 +70,8 @@ func (input *InputStruct) setKeyboardInput() error {
       input.Value,
     )
   }
-  mod, ok = howler.ToModifier(input.Modifier)
-  if !ok {
+  mod := howler.ToModifier(input.Modifier)
+  if mod == -1 {
     return fmt.Errorf(
       "Invalid keyboard modifier for input: '%s': ",
       input.Modifier,
@@ -96,14 +89,19 @@ func (input *InputStruct) setKeyboardInput() error {
 }
 
 func (input *InputStruct) setJoystickInput() error {
-  log.Println("Setting joystick");
+  log.Printf("Setting joystick: %s", input);
 
   var ok bool
   var name      howler.Inputs
   var joystick  howler.InputTypes
   var button    howler.JoystickButtons
 
-  name, ok = howler.Input(input.Name)
+  // default joystick
+  if input.Name == "" {
+    input.Name = "joystick1"
+  }
+
+  name, ok = howler.ToInput(input.Name)
   if !ok {
     return fmt.Errorf(
       "Invalid input name: '%s': ",
@@ -136,13 +134,13 @@ func (input *InputStruct) setJoystickInput() error {
 }
 
 func (input *InputStruct) setMouseInput() error {
-  log.Println("Setting mouse");
+  log.Printf("Setting mouse: %s", input);
 
   var ok bool
   var name   howler.Inputs
   var button howler.MouseButtons
 
-  name, ok = howler.Input(input.Name)
+  name, ok = howler.ToInput(input.Name)
   if !ok {
     return fmt.Errorf(
       "Invalid input name: '%s': ",

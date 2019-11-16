@@ -80,7 +80,7 @@ var app = &cli.App{
           },
           &cli.StringFlag{
             Name: "modifier",
-            Usage: "In a keyboard context, the modifier to use in addition to the value. Values: "+strings.Join(howler.ModifierNames[howler.ModifierMin:],", "),
+            Usage: "In a keyboard context, the modifier to use in addition to the value",
           },
           &cli.StringFlag{
             Name: "key",
@@ -115,6 +115,7 @@ var app = &cli.App{
           },
           &cli.StringFlag{
             Name: "joystick",
+            Value: "joystick1",
             Usage: "The joystick number to emit, eg: 1 or 2",
           },
           &cli.StringFlag{
@@ -199,7 +200,7 @@ var app = &cli.App{
 
         Action: func(c *cli.Context) error {
           fmt.Printf("Valid keyboard keys:\n")
-          fmt.Printf(strings.Join(howler.KeyNames[howler.KeyMin:], ", "))
+          fmt.Println(strings.Join(howler.KeyNames[howler.KeyMin:], ", "))
           return nil
         },
       },
@@ -215,11 +216,10 @@ var app = &cli.App{
 
         Action: func(c *cli.Context) error {
           fmt.Printf("Valid keyboard modifier names:\n")
-          fmt.Printf(strings.Join(howler.ModifierNames[howler.ModifierMin:], ", "))
+          fmt.Println(strings.Join(howler.ModifierNames[howler.ModifierMin:], ", "))
           return nil
         },
       },
-
 
       // \
       //  > Show possible mouse button values
@@ -232,7 +232,7 @@ var app = &cli.App{
 
         Action: func(c *cli.Context) error {
           fmt.Printf("Valid mouse buttons:\n")
-          fmt.Printf(strings.Join(howler.MouseNames[howler.MouseMin:], ", "))
+          fmt.Println(strings.Join(howler.MouseNames[howler.MouseMin:], ", "))
           return nil
         },
       },
@@ -248,7 +248,7 @@ var app = &cli.App{
 
         Action: func(c *cli.Context) error {
           fmt.Printf("Valid joystick buttons:\n")
-          fmt.Printf(strings.Join(howler.JoystickButtonNames[howler.JoyMin:], ", "))
+          fmt.Println(strings.Join(howler.JoystickButtonNames[howler.JoyMin:], ", "))
           return nil
         },
       },
@@ -261,16 +261,14 @@ var controller *howler.HowlerDevice
 func main() {
   var err error
 
-  controller, err = howler.OpenDevice(device)
+  err = app.Run(os.Args)
   if err != nil {
     log.Fatal(err.Error())
   }
 
-  defer func() { controller.Close() }()
-
-  err = app.Run(os.Args)
-  if err != nil {
-    log.Fatal(err.Error())
+  if controller != nil {
+    log.Printf("Closing howler device")
+    controller.Close()
   }
 }
 
