@@ -2,7 +2,6 @@ package main
 
 import (
   "fmt"
-  "log"
   _"strings"
 
   howler "github.com/sferris/howler-controller"
@@ -30,7 +29,7 @@ func (input *InputStruct) Process() error {
   if controller == nil {
     controller, err = howler.OpenDevice(device)
     if err != nil {
-      log.Fatal(err.Error())
+      return err
     }
   }
 
@@ -147,14 +146,14 @@ func (input *InputStruct) setMouseInput() error {
   return nil
 }
 
-func getInputSettings() {
+func getInputSettings() error {
   for input := howler.InputMin; input < howler.InputMax; input++ {
     var err error
 
     if controller == nil {
       controller, err = howler.OpenDevice(device)
       if err != nil {
-        log.Fatal(err.Error())
+        return err
       }
     }
 
@@ -162,4 +161,6 @@ func getInputSettings() {
     fmt.Printf("Input %-15s %s\n", 
       fmt.Sprintf("%s:", howler.Inputs(input)), howler.InputTypes(i.InputType))
   }
+
+  return nil
 }

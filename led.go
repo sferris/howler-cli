@@ -2,7 +2,6 @@ package main
 
 import (
   "fmt"
-  "log"
   "strings"
 
   "github.com/sferris/howler-controller"
@@ -25,7 +24,7 @@ func (led LEDStruct) Process() error {
   if controller == nil {
     controller, err = howler.OpenDevice(device)
     if err != nil {
-      log.Fatal(err.Error())
+      return err
     }
   }
 
@@ -94,14 +93,14 @@ func (led LEDStruct) setLEDDefault() error {
   return nil
 }
 
-func getLEDSettings() {
+func getLEDSettings() error {
   for led := howler.LedMin; led < howler.LedMax; led++ {
     var err error
 
     if controller == nil {
       controller, err = howler.OpenDevice(device)
       if err != nil {
-        log.Fatal(err.Error())
+        return err
       }
     }
 
@@ -109,4 +108,6 @@ func getLEDSettings() {
     fmt.Printf("Led %-15s %s\n", 
       fmt.Sprintf("%s:", howler.LedInputs(led)), c.ToIntString())
   }
+
+  return nil
 }

@@ -56,8 +56,7 @@ var app = &cli.App{
         Description: "Display the controller LED strtings",
 
         Action: func(c *cli.Context) error {
-          getLEDSettings()
-          return nil
+          return getLEDSettings()
         },
       },
 
@@ -103,8 +102,7 @@ var app = &cli.App{
         Description: "Display the controller LED strtings",
 
         Action: func(c *cli.Context) error {
-          getInputSettings()
-          return nil
+          return getInputSettings()
         },
       },
 

@@ -2,7 +2,6 @@ package main
 
 import (
   "fmt"
-  "log"
 
   "github.com/sferris/howler-controller"
 )
@@ -13,7 +12,7 @@ func ShowFirmware() error {
   if controller == nil {
     controller, err = howler.OpenDevice(device)
     if err != nil {
-      log.Fatal(err.Error())
+      return err
     }
   }
 
