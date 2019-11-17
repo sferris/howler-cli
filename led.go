@@ -52,8 +52,8 @@ func (led LEDStruct) setLEDCurrent() error {
   var name  howler.Leds
   var rgb   color.RGBStruct
 
-  name, ok = howler.Led(led.Name)
-  if !ok {
+  name = howler.Led(led.Name)
+  if name == -1 {
     return fmt.Errorf(
       "Invalid LED Button reference: '%s': ",
       led.Name,
@@ -78,10 +78,9 @@ func (led LEDStruct) setLEDDefault() error {
   log.Printf("Setting %s LED color: %s\n", led.Name, led.Color);
 
   var ok bool
-  var name  howler.Leds
   var rgb   color.RGBStruct
 
-  name, ok = howler.Led(led.Name)
+  name := howler.Led(led.Name)
   if !ok {
     return fmt.Errorf(
       "Invalid LED Button reference: '%s': ",

@@ -4,9 +4,9 @@ import (
   "os"
   "log"
   "fmt"
-  "io/ioutil"
 
-  "strings"
+  _"sort"
+  "io/ioutil"
 
   "gopkg.in/urfave/cli.v2"
   howler "github.com/sferris/howler-controller"
@@ -201,7 +201,7 @@ var app = &cli.App{
 
         Action: func(c *cli.Context) error {
           fmt.Println("Valid keyboard keys:")
-          fmt.Println(strings.Join(howler.KeyNames[howler.KeyMin:], ", "))
+          //fmt.Println(strings.Join(howler.KeyNames[howler.KeyMin:], ", "))
           return nil
         },
       },
@@ -217,7 +217,7 @@ var app = &cli.App{
 
         Action: func(c *cli.Context) error {
           fmt.Println("Valid keyboard modifier names:")
-          fmt.Println(strings.Join(howler.ModifierNames[howler.ModifierMin:], ", "))
+          //fmt.Println(strings.Join(howler.ModifierNames[howler.ModifierMin:], ", "))
           return nil
         },
       },
@@ -233,7 +233,7 @@ var app = &cli.App{
 
         Action: func(c *cli.Context) error {
           fmt.Println("Valid mouse buttons:")
-          fmt.Println(strings.Join(howler.MouseNames[howler.MouseMin:], ", "))
+          //fmt.Println(strings.Join(howler.MouseNames[howler.MouseMin:], ", "))
           return nil
         },
       },
@@ -249,7 +249,7 @@ var app = &cli.App{
 
         Action: func(c *cli.Context) error {
           fmt.Println("Valid joystick buttons:")
-          fmt.Println(strings.Join(howler.JoystickButtonNames[howler.JoyMin:], ", "))
+          //fmt.Println(strings.Join(howler.JoystickButtonNames[howler.JoyMin:], ", "))
           return nil
         },
       },
@@ -276,9 +276,20 @@ func main() {
   log.SetFlags(0)
   log.SetOutput(ioutil.Discard)
 
-  var err error
+/*
+  var keys []int
+  for k := range howler.ModifierNames {
+      keys = append(keys, int(k))
+  }
+  sort.Ints(keys)
 
-  err = app.Run(os.Args)
+  // To perform the opertion you want
+  for _, k := range keys {
+      fmt.Printf("Key: %0x, Value: %s\n", k, howler.ModifierNames[howler.Modifiers(k)])
+  }
+*/
+
+  err := app.Run(os.Args)
   if err != nil {
     log.Fatal(err.Error())
   }
