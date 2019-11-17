@@ -146,3 +146,20 @@ func (input *InputStruct) setMouseInput() error {
 
   return nil
 }
+
+func getInputSettings() {
+  for input := howler.InputMin; input < howler.InputMax; input++ {
+    var err error
+
+    if controller == nil {
+      controller, err = howler.OpenDevice(device)
+      if err != nil {
+        log.Fatal(err.Error())
+      }
+    }
+
+    i, _ := controller.GetInput(howler.Inputs(input))
+    fmt.Printf("Input %-15s %s\n", 
+      fmt.Sprintf("%s:", howler.Inputs(input)), howler.InputTypes(i.InputType))
+  }
+}

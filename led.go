@@ -93,3 +93,20 @@ func (led LEDStruct) setLEDDefault() error {
 
   return nil
 }
+
+func getLEDSettings() {
+  for led := howler.LedMin; led < howler.LedMax; led++ {
+    var err error
+
+    if controller == nil {
+      controller, err = howler.OpenDevice(device)
+      if err != nil {
+        log.Fatal(err.Error())
+      }
+    }
+
+    c, _ := controller.GetLEDColor(howler.LedInputs(led))
+    fmt.Printf("Led %-15s %s\n", 
+      fmt.Sprintf("%s:", howler.LedInputs(led)), c.ToIntString())
+  }
+}

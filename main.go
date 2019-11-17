@@ -5,6 +5,8 @@ import (
   "log"
   "fmt"
 
+  _"sort"
+
   "syscall"
   "golang.org/x/sys/unix"
 
@@ -44,8 +46,22 @@ var app = &cli.App{
 
     Commands: []*cli.Command{
       // \
-      //  > Set inputs LED color
+      //  > LED Input actions
       // /
+
+      // Get controller LED settings
+      {
+        Name:        "get-leds",
+        Usage:       "Display the controller LED strtings",
+        Description: "Display the controller LED strtings",
+
+        Action: func(c *cli.Context) error {
+          getLEDSettings()
+          return nil
+        },
+      },
+
+      // Set LED color
       {
         Name:        "set-led",
         Usage:       "Change the color of one of the Button LEDs",
@@ -77,8 +93,22 @@ var app = &cli.App{
       },
 
       // \
-      //  > Set input to emit a Keyboard value
+      //  > Alter input settings
       // /
+
+      // Get controller Input settings
+      {
+        Name:        "get-inputs",
+        Usage:       "Display the controller LED strtings",
+        Description: "Display the controller LED strtings",
+
+        Action: func(c *cli.Context) error {
+          getInputSettings()
+          return nil
+        },
+      },
+
+      // Set input to emit keyboard key-codes
       {
         Name:        "set-input-keyboard",
         Aliases:     []string{"set-keyboard"},
@@ -111,9 +141,7 @@ var app = &cli.App{
         },
       },
 
-      // \
-      //  > Set input to emit a Joystick button
-      // /
+      // Set input to emit joystick button codes
       {
         Name:        "set-input-joystick",
         Aliases:     []string{"set-joystick"},
@@ -146,9 +174,7 @@ var app = &cli.App{
         },
       },
 
-      // \
-      //  > Set input to emit a Mouse button
-      // /
+      // Set input to emit mouse button codes
       {
         Name:        "set-input-mouse",
         Aliases:     []string{"set-mouse"},
@@ -306,6 +332,21 @@ var controller *howler.HowlerDevice
 func main() {
   log.SetFlags(0)
   //log.SetOutput(ioutil.Discard)
+
+/*
+  // Used to check enums
+  var keys []int
+  for k := range howler.InputTypeNames {
+      keys = append(keys, int(k))
+  }
+  sort.Ints(keys)
+  // To perform the opertion you want
+  for _, k := range keys {
+      fmt.Printf("Key: %0x, Value: %s\n", k, howler.InputTypeNames[howler.InputTypes(k)])
+  }
+
+  os.Exit(0)
+*/
 
   err := app.Run(os.Args)
   if err != nil {
