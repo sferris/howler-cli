@@ -11,8 +11,6 @@ func ShowFirmware() error {
   var err error
 
   if controller == nil {
-    log.Printf("Opening howler device: %d\n", device)
-
     controller, err = howler.OpenDevice(device)
     if err != nil {
       log.Fatal(err.Error())

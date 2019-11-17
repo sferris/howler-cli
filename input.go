@@ -28,8 +28,6 @@ func (input *InputStruct) Process() error {
   var err error
 
   if controller == nil {
-    log.Printf("Opening howler device: %d\n", device)
-
     controller, err = howler.OpenDevice(device)
     if err != nil {
       log.Fatal(err.Error())
@@ -54,8 +52,6 @@ func (input *InputStruct) Process() error {
 }
 
 func (input *InputStruct) setKeyboardInput() error {
-  log.Printf("Setting keyboard: %s\n", input);
-
   // defaults
   if input.Modifier == "" {
     input.Modifier = "none"
@@ -83,19 +79,15 @@ func (input *InputStruct) setKeyboardInput() error {
     )
   }
 
-  result, err := controller.SetInputKeyboard(name, key, mod)
+  _, err := controller.SetInputKeyboard(name, key, mod)
   if err != nil {
     return err
   }
-
-  result.Dump()
 
   return nil
 }
 
 func (input *InputStruct) setJoystickInput() error {
-  log.Printf("Setting joystick: %s\n", input);
-
   // default joystick
   if input.Name == "" {
     input.Name = "joystick1"
@@ -123,19 +115,15 @@ func (input *InputStruct) setJoystickInput() error {
     )
   }
 
-  result, err := controller.SetInputJoystick(name, joystick, button)
+  _, err := controller.SetInputJoystick(name, joystick, button)
   if err != nil {
     return err
   }
-
-  result.Dump()
 
   return nil
 }
 
 func (input *InputStruct) setMouseInput() error {
-  log.Printf("Setting mouse: %s\n", input);
-
   name := howler.ToInput(input.Name)
   if name == -1 {
     return fmt.Errorf(
@@ -151,12 +139,10 @@ func (input *InputStruct) setMouseInput() error {
     )
   }
 
-  result, err := controller.SetInputMouse(name, button)
+  _, err := controller.SetInputMouse(name, button)
   if err != nil {
     return err
   }
-
-  result.Dump()
 
   return nil
 }

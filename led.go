@@ -23,8 +23,6 @@ func (led LEDStruct) Process() error {
   }
 
   if controller == nil {
-    log.Printf("Opening howler device: %d\n", device)
-
     controller, err = howler.OpenDevice(device)
     if err != nil {
       log.Fatal(err.Error())
@@ -46,13 +44,11 @@ func (led LEDStruct) Process() error {
 }
 
 func (led LEDStruct) setLEDCurrent() error {
-  log.Printf("Setting %s LED color: %s\n", led.Name, led.Color);
-
   var ok bool
-  var name  howler.Leds
+  var name  howler.LedInputs
   var rgb   color.RGBStruct
 
-  name = howler.Led(led.Name)
+  name = howler.ToLed(led.Name)
   if name == -1 {
     return fmt.Errorf(
       "Invalid LED Button reference: '%s': ",
@@ -75,12 +71,10 @@ func (led LEDStruct) setLEDCurrent() error {
 }
 
 func (led LEDStruct) setLEDDefault() error {
-  log.Printf("Setting %s LED color: %s\n", led.Name, led.Color);
-
   var ok bool
   var rgb   color.RGBStruct
 
-  name := howler.Led(led.Name)
+  name := howler.ToLed(led.Name)
   if !ok {
     return fmt.Errorf(
       "Invalid LED Button reference: '%s': ",
@@ -96,8 +90,6 @@ func (led LEDStruct) setLEDDefault() error {
   if err != nil {
     return err
   }
-
-  //log.Printf("%s\n", result.Dump())
 
   return nil
 }

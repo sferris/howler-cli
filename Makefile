@@ -9,6 +9,7 @@ PACKAGES=\
 	"github.com/sferris/howler-controller"   \
 	"gopkg.in/yaml.v2"                       \
 	"gopkg.in/urfave/cli.v2"                 \
+	"golang.org/x/sys/unix"                  \
 	$(NULL)
 
 all: $(PACKAGES)

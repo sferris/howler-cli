@@ -5,16 +5,27 @@ import (
   "log"
   "fmt"
 
-  _"sort"
-  "io/ioutil"
+  "syscall"
+  "golang.org/x/sys/unix"
 
   "gopkg.in/urfave/cli.v2"
+
   howler "github.com/sferris/howler-controller"
 )
 
 var (
   device int
 )
+
+var columns = 70
+
+func init() {
+  ws, err := unix.IoctlGetWinsize(syscall.Stdout, unix.TIOCGWINSZ)
+  if err == nil {
+    columns = int(ws.Col)
+  }
+}
+
 
 var app = &cli.App{
     Name: "howler-cli",
@@ -42,7 +53,7 @@ var app = &cli.App{
 
         Flags: []cli.Flag{
           &cli.StringFlag{
-            Name: "button",
+            Name: "input",
             Usage: "The button/led to change",
           },
           &cli.StringFlag{
@@ -57,7 +68,7 @@ var app = &cli.App{
 
         Action: func(c *cli.Context) error {
           led := LEDStruct{
-            Name:   c.String("button"),
+            Name:   c.String("input"),
             Color:  c.String("color"),
             Scope:  c.String("scope"),
           }
@@ -200,8 +211,8 @@ var app = &cli.App{
         Description: "This shows the list of valid keyboard key names",
 
         Action: func(c *cli.Context) error {
-          fmt.Println("Valid keyboard keys:")
-          //fmt.Println(strings.Join(howler.KeyNames[howler.KeyMin:], ", "))
+          fmt.Println("Valid keyboard keys:\n")
+          fmt.Println( KeyNames() );
           return nil
         },
       },
@@ -216,8 +227,8 @@ var app = &cli.App{
         Description: "This shows the list of valid keyboard modifier names",
 
         Action: func(c *cli.Context) error {
-          fmt.Println("Valid keyboard modifier names:")
-          //fmt.Println(strings.Join(howler.ModifierNames[howler.ModifierMin:], ", "))
+          fmt.Println("Valid keyboard modifier names:\n")
+          fmt.Println( ModifierNames() );
           return nil
         },
       },
@@ -232,8 +243,8 @@ var app = &cli.App{
         Description: "This shows the list of valid mouse buttons",
 
         Action: func(c *cli.Context) error {
-          fmt.Println("Valid mouse buttons:")
-          //fmt.Println(strings.Join(howler.MouseNames[howler.MouseMin:], ", "))
+          fmt.Println("Valid mouse buttons:\n")
+          fmt.Println( MouseButtons() );
           return nil
         },
       },
@@ -248,11 +259,31 @@ var app = &cli.App{
         Description: "This shows the list of valid joystick buttons",
 
         Action: func(c *cli.Context) error {
-          fmt.Println("Valid joystick buttons:")
-          //fmt.Println(strings.Join(howler.JoystickButtonNames[howler.JoyMin:], ", "))
+          fmt.Println("Valid joystick buttons:\n")
+          fmt.Println( JoystickButtons() );
           return nil
         },
       },
+
+      // \
+      //  > Show possible inputs
+      // /
+      {
+        Name:        "show-inputs",
+        Usage:       "Show the valid inputs (context dependent)",
+        Aliases:     []string{"show-joystick"},
+        Description: "This will show the possible inputs for configuring inputs, or settings LEDs",
+
+        Action: func(c *cli.Context) error {
+          fmt.Println("Valid inputs:\n")
+          fmt.Println( Inputs() );
+
+          fmt.Println("Valid LED inputs:\n")
+          fmt.Println( LedInputs() );
+          return nil
+        },
+      },
+
 
       // \
       //  > Show firmware version
@@ -260,7 +291,7 @@ var app = &cli.App{
       {
         Name:        "firmware",
         Usage:       "Show the firmware revision information",
-        Aliases:     []string{"show-firmward"},
+        Aliases:     []string{"show-fw"},
         Description: "This shows the list of valid joystick buttons",
 
         Action: func(c *cli.Context) error {
@@ -274,20 +305,7 @@ var controller *howler.HowlerDevice
 
 func main() {
   log.SetFlags(0)
-  log.SetOutput(ioutil.Discard)
-
-/*
-  var keys []int
-  for k := range howler.ModifierNames {
-      keys = append(keys, int(k))
-  }
-  sort.Ints(keys)
-
-  // To perform the opertion you want
-  for _, k := range keys {
-      fmt.Printf("Key: %0x, Value: %s\n", k, howler.ModifierNames[howler.Modifiers(k)])
-  }
-*/
+  //log.SetOutput(ioutil.Discard)
 
   err := app.Run(os.Args)
   if err != nil {
@@ -295,7 +313,6 @@ func main() {
   }
 
   if controller != nil {
-    log.Printf("Closing howler device")
     controller.Close()
   }
 }
