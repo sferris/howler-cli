@@ -295,7 +295,7 @@ var app = &cli.App{
       {
         Name:        "show-inputs",
         Usage:       "Show the valid inputs (context dependent)",
-        Aliases:     []string{"show-joystick"},
+        //Aliases:     []string{"show-joystick"},
         Description: "This will show the possible inputs for configuring inputs, or settings LEDs",
 
         Action: func(c *cli.Context) error {
