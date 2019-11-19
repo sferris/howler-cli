@@ -18,7 +18,7 @@ func ModifierNames() string {
 
   w := 0
   for _, k := range keys {
-    value := fmt.Sprintf("%s, ", howler.ModifierNames[howler.Modifiers(k)])
+    value := fmt.Sprintf("%s, ", howler.ModifierNames[howler.KeyModifiers(k)])
 
     result += value
 

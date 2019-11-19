@@ -18,7 +18,7 @@ func KeyNames() string {
 
   w := 0
   for _, k := range keys {
-    value := fmt.Sprintf("%s, ", howler.KeyNames[howler.Keys(k)])
+    value := fmt.Sprintf("%s, ", howler.KeyNames[howler.KeyCodes(k)])
 
     result += value
 
