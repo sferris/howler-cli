@@ -6,11 +6,17 @@ import (
   howler "github.com/sferris/howler-controller"
 )
 
-func Inputs() string {
+func ControlInputs() string {
   var result string
 
   var keys []int
-  for k := range howler.InputNames {
+  for k := range howler.ButtonNames {
+    keys = append(keys, int(k))
+  }
+  for k := range howler.JoystickNames {
+    keys = append(keys, int(k))
+  }
+  for k := range howler.AxisNames {
     keys = append(keys, int(k))
   }
 
@@ -18,7 +24,7 @@ func Inputs() string {
 
   w := 0
   for _, k := range keys {
-    value := fmt.Sprintf("%s, ", howler.InputNames[howler.Inputs(k)])
+    value := fmt.Sprintf("%s, ", howler.ControlInput(k))
 
     result += value
 
@@ -45,7 +51,7 @@ func LedInputs() string {
 
   w := 0
   for _, k := range keys {
-    value := fmt.Sprintf("%s, ", howler.LedInputNames[howler.LedInputs(k)])
+    value := fmt.Sprintf("%s, ", howler.LedInputs(k))
 
     result += value
 

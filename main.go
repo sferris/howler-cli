@@ -51,7 +51,7 @@ var app = &cli.App{
 
       // Get controller LED settings
       {
-        Name:        "get-leds",
+        Name:        "led-settings",
         Usage:       "Display the controller LED strtings",
         Description: "Display the controller LED strtings",
 
@@ -97,18 +97,18 @@ var app = &cli.App{
 
       // Get controller Input settings
       {
-        Name:        "get-inputs",
+        Name:        "control-settings",
         Usage:       "Display the controller LED strtings",
         Description: "Display the controller LED strtings",
 
         Action: func(c *cli.Context) error {
-          return getInputSettings()
+          return getControlSettings()
         },
       },
 
       // Set input to emit keyboard key-codes
       {
-        Name:        "set-input-keyboard",
+        Name:        "set-button-keyboard",
         Aliases:     []string{"set-keyboard"},
         Usage:       "Alter a controller input to emit a keyboard key",
         Description: "This command will set a controller input to emit a keyboard key",
@@ -141,7 +141,7 @@ var app = &cli.App{
 
       // Set input to emit joystick button codes
       {
-        Name:        "set-input-joystick",
+        Name:        "set-button-joystick",
         Aliases:     []string{"set-joystick"},
         Usage:       "Alter a controller input to emit a joystick button",
         Description: "This command will set a controller input to emit a joystick button press",
@@ -174,7 +174,7 @@ var app = &cli.App{
 
       // Set input to emit mouse button codes
       {
-        Name:        "set-input-mouse",
+        Name:        "set-button-mouse",
         Aliases:     []string{"set-mouse"},
         Usage:       "Alter a controller input to emit a mouse button",
         Description: "This command will set a controller input to emit a mouse button press",
@@ -299,8 +299,8 @@ var app = &cli.App{
         Description: "This will show the possible inputs for configuring inputs, or settings LEDs",
 
         Action: func(c *cli.Context) error {
-          fmt.Println("Valid inputs:\n")
-          fmt.Println( Inputs() );
+          fmt.Println("Valid Control inputs:\n")
+          fmt.Println( ControlInputs() );
 
           fmt.Println("Valid LED inputs:\n")
           fmt.Println( LedInputs() );
