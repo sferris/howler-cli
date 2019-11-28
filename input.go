@@ -51,7 +51,7 @@ func (input *InputStruct) Process() error {
 }
 
 func getControlSettings() error {
-  for input := howler.ControlMin; input < howler.ControlMax; input++ {
+  for _, control := range howler.ControlInputNames {
     var err error
 
     if controller == nil {
@@ -61,9 +61,10 @@ func getControlSettings() error {
       }
     }
 
-    i, _ := controller.GetInput(howler.ControlInput(input))
+    i, _ := controller.GetInput(control.Input())
 
-    fmt.Printf("%s\n", i.String())
+    fmt.Printf("%s\n", i)
+    //fmt.Printf("%+v\n", i)
 /*
     fmt.Printf("Input %-15s %-25s %-3d %-3d\n", 
       fmt.Sprintf("%s:", howler.Inputs(input)),

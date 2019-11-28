@@ -6,25 +6,34 @@ import (
   howler "github.com/sferris/howler-controller"
 )
 
+
+type controlSlice []howler.ControlInputs
+
+func (controls controlSlice) Len() int {
+  return len(controls)
+}
+
+func (controls controlSlice) Swap(i, j int) {
+  controls[i], controls[j] = controls[j], controls[i]
+}
+
+func (controls controlSlice) Less(i, j int) bool {
+  return int(controls[i].Input()) < int(controls[j].Input())
+}
+
 func ControlInputs() string {
   var result string
 
-  var keys []int
-  for k := range howler.ButtonNames {
-    keys = append(keys, int(k))
-  }
-  for k := range howler.JoystickNames {
-    keys = append(keys, int(k))
-  }
-  for k := range howler.AxisNames {
-    keys = append(keys, int(k))
+  controls := make(controlSlice,0,len(howler.ControlInputNames))
+  for _, control := range howler.ControlInputNames {
+    controls = append(controls, control)
   }
 
-  sort.Ints(keys)
+  sort.Sort(controls)
 
   w := 0
-  for _, k := range keys {
-    value := fmt.Sprintf("%s, ", howler.ControlInput(k))
+  for _, v := range controls {
+    value := fmt.Sprintf("%s, ", v.Name())
 
     result += value
 

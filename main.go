@@ -15,6 +15,13 @@ import (
   howler "github.com/sferris/howler-controller"
 )
 
+/*
+	i, err := strconv.ParseInt(s, 10, 8) //Is third parameter not honored??
+	if err != nil {
+		panic(err)
+	}
+*/
+
 var (
   device int
 )

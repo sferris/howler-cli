@@ -13,8 +13,8 @@ func (input *InputStruct) setButtonKeyboard() error {
     input.Modifier = "none"
   }
 
-  name := howler.ToControl(input.Name)
-  if name == -1 {
+  control := howler.ToControl(input.Name)
+  if len(control.Type()) <= 0 {
     return fmt.Errorf(
       "Invalid input name: '%s': ",
       input.Name,
@@ -35,7 +35,7 @@ func (input *InputStruct) setButtonKeyboard() error {
     )
   }
 
-  _, err := controller.SetInputKeyboard(name, key, mod)
+  _, err := controller.SetInputKeyboard(control.Input(), key, mod)
   if err != nil {
     return err
   }
@@ -52,8 +52,8 @@ fmt.Println(input)
     input.Type = "joystick1"
   }
 
-  name := howler.ToControl(input.Name)
-  if name == -1 {
+  control := howler.ToControl(input.Name)
+  if len(control.Type()) <= 0 {
     return fmt.Errorf(
       "Invalid input name: '%s': ",
       input.Name,
@@ -74,7 +74,7 @@ fmt.Println(input)
     )
   }
 
-  _, err := controller.SetInputJoystick(name, joystick, button)
+  _, err := controller.SetInputJoystick(control.Input(), joystick, button)
   if err != nil {
     return err
   }
@@ -83,8 +83,8 @@ fmt.Println(input)
 }
 
 func (input *InputStruct) setButtonMouse() error {
-  name := howler.ToControl(input.Name)
-  if name == -1 {
+  control := howler.ToControl(input.Name)
+  if len(control.Type()) <= 0 {
     return fmt.Errorf(
       "Invalid input name: '%s': ",
       input.Name,
@@ -98,7 +98,7 @@ func (input *InputStruct) setButtonMouse() error {
     )
   }
 
-  _, err := controller.SetInputMouse(name, button)
+  _, err := controller.SetInputMouse(control.Input(), button)
   if err != nil {
     return err
   }
