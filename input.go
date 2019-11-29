@@ -33,46 +33,43 @@ func (input *InputStruct) Process() error {
     }
   }
 
-  inputType := howler.ToInputType(input.Type)
+  typ, err := howler.StringToControlFunction(input.Type)
+  if err != nil {
+    return err
+  }
  
-  switch inputType {
-    case howler.TypeJoystick1: fallthrough
-    case howler.TypeJoystick2:
-      err = input.setButtonJoystick();
-
-    case howler.TypeKeyboard:
-      err = input.setButtonKeyboard();
-
-    case howler.TypeMouse:
-      err = input.setButtonMouse();
+  if typ.Capability() & howler.CapJoystickButton != 0 {
+    return input.setButtonJoystick();
+  } else if typ.Capability() & howler.CapKeyboardButton != 0 {
+    return input.setButtonKeyboard();
+  } else if typ.Capability() & howler.CapMouseButton != 0 {
+    return input.setButtonMouse();
   }
 
-  return err
+  return nil
 }
 
 func getControlSettings() error {
-  for _, control := range howler.ControlInputNames {
-    var err error
+  var err error
 
-    if controller == nil {
-      controller, err = howler.OpenDevice(device)
-      if err != nil {
-        return err
-      }
+  if controller == nil {
+    controller, err = howler.OpenDevice(device)
+    if err != nil {
+      return err
     }
+  }
 
-    i, _ := controller.GetInput(control.Input())
-
-    fmt.Printf("%s\n", i)
-    //fmt.Printf("%+v\n", i)
 /*
-    fmt.Printf("Input %-15s %-25s %-3d %-3d\n", 
-      fmt.Sprintf("%s:", howler.Inputs(input)),
-      howler.InputTypes(i.InputType),
-      i.InputValue1,
-      i.InputValue2,
-    )
+  for k, v := range howler.ControlFunctionMap {
+    fmt.Printf("%d: %+v\n", k, v)
+  }
 */
+
+  for input := range howler.ControlInputs() {
+    //input := howler.ControlButton26.ID()
+    i, _ := controller.GetInput(howler.ControlID(input))
+    fmt.Printf("%+v\n", i)
+    fmt.Printf("%d: %s\n", input, i.String())
   }
 
   return nil

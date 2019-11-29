@@ -7,7 +7,7 @@ import (
 )
 
 
-type controlSlice []howler.ControlInputs
+type controlSlice []howler.ControlInput
 
 func (controls controlSlice) Len() int {
   return len(controls)
@@ -18,14 +18,14 @@ func (controls controlSlice) Swap(i, j int) {
 }
 
 func (controls controlSlice) Less(i, j int) bool {
-  return int(controls[i].Input()) < int(controls[j].Input())
+  return int(controls[i].ID()) < int(controls[j].ID())
 }
 
-func ControlInputs() string {
+func ControlInput() string {
   var result string
 
-  controls := make(controlSlice,0,len(howler.ControlInputNames))
-  for _, control := range howler.ControlInputNames {
+  controls := make(controlSlice,0,len(howler.ControlInputMap))
+  for _, control := range howler.ControlInputMap {
     controls = append(controls, control)
   }
 

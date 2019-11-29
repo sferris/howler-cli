@@ -307,7 +307,7 @@ var app = &cli.App{
 
         Action: func(c *cli.Context) error {
           fmt.Println("Valid Control inputs:\n")
-          fmt.Println( ControlInputs() );
+          fmt.Println( ControlInput() );
 
           fmt.Println("Valid LED inputs:\n")
           fmt.Println( LedInputs() );
