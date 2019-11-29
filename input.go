@@ -68,7 +68,6 @@ func getControlSettings() error {
   for input := range howler.ControlInputs() {
     //input := howler.ControlButton26.ID()
     i, _ := controller.GetInput(howler.ControlID(input))
-    fmt.Printf("%+v\n", i)
     fmt.Printf("%d: %s\n", input, i.String())
   }
 
