@@ -18,10 +18,12 @@ import (
 
 func setKeyboardButton(c *cli.Context) error {
   input := InputStruct{
-    Name:      c.String(""),
-    Type:      c.String(""),
-    Modifier:  c.String(""),
-    Value:     c.String(""),
+    Command:   "set-keyboard-button",
+
+    Name:      c.String("input"),
+    //Type:      c.String(""),
+    Value:     c.String("key"),
+    Modifier:  c.String("modifier"),
   }
 
   return input.Process()

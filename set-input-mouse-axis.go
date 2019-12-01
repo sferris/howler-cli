@@ -16,10 +16,12 @@ import (
 
 func setMouseAxis(c *cli.Context) error {
   input := InputStruct{
-    Name:      c.String(""),
-    Type:      c.String(""),
-    Modifier:  c.String(""),
-    Value:     c.String(""),
+    Command:   "set-mouse-axis",
+
+    Name:      c.String("input"),
+    Type:      c.String("axis"),
+    //Value:     c.String(""),
+    //Modifier:  c.String(""),
   }
 
   return input.Process()

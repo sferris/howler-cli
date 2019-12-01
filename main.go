@@ -155,6 +155,10 @@ var app = &cli.App{
             Name: "function",
             Usage: "Which mouse axis to emit",
           },
+          &cli.StringFlag{
+            Name: "value",
+            Usage: "Value for axis (-128 .. 128)",
+          },
         },
 
         Action: setJoystickDigital,
@@ -226,7 +230,19 @@ var app = &cli.App{
 
         Action: setMouseButton,
       },
+      // \
+      //  > Miscelaneous
+      // /
 
+      // Reset to defaults
+      {
+        Name:        "reset-defaults",
+        Aliases:     []string{"defaults"},
+        Usage:       "Reset controller to defaults",
+        Description: "This command will reset the controller to defaults",
+
+        Action: resetDefaults,
+      },
       // \
       //  > Process many inputs defined in a file
       // /
@@ -240,6 +256,10 @@ var app = &cli.App{
             Name: "path",
             Aliases: []string{"file"},
             Usage: "The fullpath to the yaml file containing the settings to be applied",
+          },
+          &cli.IntFlag{
+            Name: "sleep",
+            Usage: "Number of milliseconds to sleep between LED color changes",
           },
         },
 

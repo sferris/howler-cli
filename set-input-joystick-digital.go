@@ -1,7 +1,8 @@
 package main
 
 import (
-  //"fmt"
+  "fmt"
+  "strconv"
 
   "gopkg.in/urfave/cli.v2"
 
@@ -11,16 +12,20 @@ import (
 
 /*
   Name: "input",
+  --
   Name: "function",
+  --
   Name: "value",
 */
 
 func setJoystickDigital(c *cli.Context) error {
   input := InputStruct{
-    Name:      c.String(""),
-    Type:      c.String(""),
-    Modifier:  c.String(""),
-    Value:     c.String(""),
+    Command:   "set-joystick-digital",
+
+    Name:      c.String("input"),
+    Type:      c.String("function"),
+    Value:     c.String("value"),
+    //Modifier:  c.String(""),
   }
 
   return input.Process()
@@ -40,15 +45,18 @@ func (input *InputStruct) SetJoystickDigital() error {
     return err
   }
 
-  value := int8(1)
+  value, err := strconv.ParseInt(input.Value, 10, 8)
+  if err != nil {
+    return err
+  }
 
   if controller == nil { 
     controller, err = howler.OpenDevice(device)
     if err != nil {
-      return err
+      return fmt.Errorf("Unable to parse value: %s\n", err.Error())
     }
   }   
     
-  _, err = controller.SetJoystickDigital(control, function, value)
+  _, err = controller.SetJoystickDigital(control, function, int8(value))
   return err
 }

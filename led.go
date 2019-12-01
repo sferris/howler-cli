@@ -1,7 +1,6 @@
 package main
 
 import (
-  "fmt"
   "strings"
 
   howler "github.com/sferris/howler-controller"
@@ -16,10 +15,6 @@ type LEDStruct struct {
 func (led LEDStruct) Process() error {
   var err error
 
-  if len(led.Scope) <= 0 {
-    led.Scope = "current"
-  }
-
   if controller == nil {
     controller, err = howler.OpenDevice(device)
     if err != nil {
@@ -28,14 +23,11 @@ func (led LEDStruct) Process() error {
   }
 
   switch strings.ToLower(led.Scope) {
-    case "current":
-      err = led.Set();
-
     case "default":
       err = led.SetDefault();
 
     default:
-      return fmt.Errorf("Invalid LED Scope: %s\n", led.Scope)
+      err = led.Set();
   }
 
   return err

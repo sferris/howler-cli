@@ -9,10 +9,12 @@ import (
 )
 
 type InputStruct struct {
+  Command   string `yaml:"command"`
+
   Name      string `yaml:"input"`
   Type      string `yaml:"type"`
-  Modifier  string `yaml:"modifier"`
   Value     string `yaml:"value"`
+  Modifier  string `yaml:"modifier"`
 }
 
 func (input *InputStruct) String() string {
@@ -27,21 +29,27 @@ func (input *InputStruct) String() string {
 func (input *InputStruct) Process() error {
   var err error
 
-  switch input.Type {
-    case "joystick-analog":
+  switch input.Command {
+    case "joystick-analog": fallthrough
+    case "set-joystick-analog":
       err = input.SetJoystickAnalog()
-    case "joystick-button":
+    case "joystick-button": fallthrough
+    case "set-joystick-button":
       err = input.SetJoystickButton()
-    case "joystick-digital":
+    case "joystick-digital": fallthrough
+    case "set-joystick-digital":
       err = input.SetJoystickDigital()
-    case "keyboard-button":
+    case "keyboard-button": fallthrough
+    case "set-keyboard-button":
       err = input.SetKeyboardButton()
-    case "mouse-axis":
+    case "mouse-axis": fallthrough
+    case "set-mouse-axis":
       err = input.SetMouseAxis()
-    case "mouse-button":
+    case "mouse-button": fallthrough
+    case "set-mouse-button":
       err = input.SetMouseButton()
     default:
-      return fmt.Errorf("Invalid Input setting: %s\n", input.Type)
+      return fmt.Errorf("Invalid command for processing: %s\n", input.Command)
   }
 
   return err

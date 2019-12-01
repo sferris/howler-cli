@@ -16,10 +16,12 @@ import (
 
 func setJoystickAnalog(c *cli.Context) error {
   input := InputStruct{
-    Name:      c.String(""),
-    Type:      c.String(""),
-    Modifier:  c.String(""),
-    Value:     c.String(""),
+    Command:   "set-joystick-analog",
+
+    Name:      c.String("input"),
+    Type:      c.String("function"),
+    //Value:     c.String(""),
+    //Modifier:  c.String(""),
   }
 
   return input.Process()

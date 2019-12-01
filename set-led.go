@@ -17,7 +17,7 @@ import (
 func setLED(c *cli.Context) error {
   led := LEDStruct{
     Name:  c.String("input"),
-    Scope: "default",
+    Scope: "current",
     Color: c.String("color"),
   }
 

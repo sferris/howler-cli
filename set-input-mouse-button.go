@@ -16,10 +16,12 @@ import (
 
 func setMouseButton(c *cli.Context) error {
   input := InputStruct{
-    Name:      c.String(""),
-    Type:      c.String(""),
-    Modifier:  c.String(""),
-    Value:     c.String(""),
+    Command:   "set-mouse-button",
+
+    Name:      c.String("input"),
+    //Type:      c.String(""),
+    Value:     c.String("button"),
+    //Modifier:  c.String(""),
   }
 
   return input.Process()

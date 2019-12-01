@@ -9,18 +9,23 @@ import (
 )
 
 /*
-  Name: "input",
+  Name: "input"
   --
   Name: "joystick"
-  Default: "joystick1",
+  Default: "joystick1"
+  --
+  Name: "button"
+
 */
 
 func setJoystickButton(c *cli.Context) error {
   input := InputStruct{
-    Name:      c.String(""),
-    Type:      c.String(""),
-    Modifier:  c.String(""),
-    Value:     c.String(""),
+    Command:   "set-joystick-button",
+
+    Name:      c.String("input"),
+    Type:      c.String("joystick"),
+    Value:     c.String("button"),
+    //Modifier:  c.String(""),
   }
 
   return input.Process()
