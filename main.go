@@ -96,8 +96,8 @@ var app = &cli.App{
       {
         Name:        "set-joystick-analog",
         Aliases:     []string{"setja"},
-        Usage:       "Set input to emit analog joystick movements",
-        Description: "This command will set a controller input to emit analog joystick movements",
+        Usage:       usageJoystickAnalog,
+        Description: descJoystickAnalog,
 
         Flags: []cli.Flag{
           &cli.StringFlag{
@@ -117,8 +117,8 @@ var app = &cli.App{
       {
         Name:        "set-joystick-button",
         Aliases:     []string{"setjb"},
-        Usage:       "Set input to emit a joystick button",
-        Description: "This command will set a controller input to emit a joystick button press",
+        Usage:       usageJoystickButton,
+        Description: descJoystickButton,
 
         Flags: []cli.Flag{
           &cli.StringFlag{
@@ -143,8 +143,8 @@ var app = &cli.App{
       {
         Name:        "set-joystick-digital",
         Aliases:     []string{"setjd"},
-        Usage:       "Set input to emit digital joystick movements",
-        Description: "This command will set a controller input to emit digital joystick movements",
+        Usage:       usageJoystickDigital,
+        Description: descJoystickDigital,
 
         Flags: []cli.Flag{
           &cli.StringFlag{
@@ -168,8 +168,8 @@ var app = &cli.App{
       {
         Name:        "set-keyboard-button",
         Aliases:     []string{"setkb"},
-        Usage:       "Set input to emit a keyboard key",
-        Description: "This command will set a controller input to emit a keyboard key",
+        Usage:       usageKeyboardButton,
+        Description: descKeyboardButton,
 
         Flags: []cli.Flag{
           &cli.StringFlag{
@@ -193,8 +193,8 @@ var app = &cli.App{
       {
         Name:        "set-mouse-axis",
         Aliases:     []string{"setma"},
-        Usage:       "Set input to emit mouse movements",
-        Description: "This command will set a controller input to emit a mouse movements",
+        Usage:       usageMouseAxis,
+        Description: descMouseAxis,
 
         Flags: []cli.Flag{
           &cli.StringFlag{
@@ -214,8 +214,8 @@ var app = &cli.App{
       {
         Name:        "set-mouse-button",
         Aliases:     []string{"setmb"},
-        Usage:       "Set input to emit a mouse button",
-        Description: "This command will set a controller input to emit a mouse button press",
+        Usage:       usageMouseButton,
+        Description: descMouseButton,
 
         Flags: []cli.Flag{
           &cli.StringFlag{
@@ -286,6 +286,7 @@ var app = &cli.App{
         Action: showControlSettings,
       },
 
+/*
       // \
       //  > Show possible keyboard key values
       // /
@@ -345,7 +346,7 @@ var app = &cli.App{
 
         Action: showControlInputs,
       },
-
+*/
 
       // \
       //  > Show firmware version
@@ -353,7 +354,7 @@ var app = &cli.App{
       {
         Name:        "show-firmware-revision",
         Usage:       "Show the firmware revision information",
-        Aliases:     []string{"show-fw","firmware"},
+        Aliases:     []string{"showfw","firmware"},
         Description: "This shows the list of valid joystick buttons",
 
         Action: showFirmwareRevision,

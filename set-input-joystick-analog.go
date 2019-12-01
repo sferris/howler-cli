@@ -1,7 +1,7 @@
 package main
 
 import (
-  //"fmt"
+  "fmt"
 
   "gopkg.in/urfave/cli.v2"
 
@@ -13,6 +13,21 @@ import (
   --
   Name: "function",
 */
+
+var txtJoystickAnalog = `
+This command will set a controller input to emit analog joystick movements.
+
+Inputs: %s
+
+Functions: %s
+`
+
+var usageJoystickAnalog = "Set input to emit analog joystick movements"
+var descJoystickAnalog = fmt.Sprintf(
+  txtJoystickAnalog,
+  fmt.Sprintf("\n%s", ControlInputNameByCapability(howler.CapJoystickAnalog)),
+  fmt.Sprintf("\n%s", ControlFunctionNameByCapability(howler.CapJoystickAnalog)),
+)
 
 func setJoystickAnalog(c *cli.Context) error {
   input := InputStruct{

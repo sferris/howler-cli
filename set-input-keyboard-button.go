@@ -16,6 +16,24 @@ import (
   Name: "key",
 */
 
+var txtKeyboardButton = `
+This command will set a controller input to emit a keyboard key
+
+- Inputs: %s
+
+- Keys: %s
+
+- Modifiers: %s
+`
+
+var usageKeyboardButton = "Set input to emit a keyboard key"
+var descKeyboardButton = fmt.Sprintf(
+  txtKeyboardButton,
+  fmt.Sprintf("\n%s", ControlInputNameByCapability(howler.CapKeyboardButton)),
+  fmt.Sprintf("\n%s", KeyNames()),
+  fmt.Sprintf("\n%s", ModifierNames()),
+)
+
 func setKeyboardButton(c *cli.Context) error {
   input := InputStruct{
     Command:   "set-keyboard-button",

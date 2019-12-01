@@ -18,6 +18,24 @@ import (
   Name: "value",
 */
 
+
+var txtJoystickDigital = `
+This command will set a controller input to emit digital joystick movements
+
+Inputs: %s
+
+Functions: %s
+
+Value: Any number between -127 and 127
+`
+
+var usageJoystickDigital = "Set input to emit digital joystick movements"
+var descJoystickDigital = fmt.Sprintf(
+  txtJoystickDigital,
+  fmt.Sprintf("\n%s", ControlInputNameByCapability(howler.CapJoystickDigital)),
+  fmt.Sprintf("\n%s", ControlFunctionNameByCapability(howler.CapJoystickDigital)),
+)
+
 func setJoystickDigital(c *cli.Context) error {
   input := InputStruct{
     Command:   "set-joystick-digital",

@@ -14,6 +14,23 @@ import (
   Name: "button",
 */
 
+
+
+var txtMouseButton = `
+This command will set a controller input to emit a mouse button press
+
+Inputs: %s
+
+Buttons: %s
+`
+
+var usageMouseButton = "Set input to emit a mouse button"
+var descMouseButton = fmt.Sprintf(
+  txtMouseButton,
+  fmt.Sprintf("\n%s", ControlInputNameByCapability(howler.CapMouseButton)),
+  fmt.Sprintf("\n%s", MouseButtonNames()),
+)
+
 func setMouseButton(c *cli.Context) error {
   input := InputStruct{
     Command:   "set-mouse-button",

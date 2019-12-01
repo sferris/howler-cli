@@ -18,6 +18,24 @@ import (
 
 */
 
+var txtJoystickButton = `
+This command will set a controller input to emit a joystick button press
+
+- Inputs: %s
+
+- Joysticks: %s
+
+- Buttons: %s
+`
+
+var usageJoystickButton = "Set input to emit a joystick button"
+var descJoystickButton = fmt.Sprintf(
+  txtJoystickButton,
+  fmt.Sprintf("\n%s", ControlInputNameByCapability(howler.CapJoystickButton)),
+  fmt.Sprintf("\n%s", ControlFunctionNameByCapability(howler.CapJoystickButton)),
+  fmt.Sprintf("\n%s", JoystickButtonNames()),
+)
+
 func setJoystickButton(c *cli.Context) error {
   input := InputStruct{
     Command:   "set-joystick-button",

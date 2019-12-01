@@ -1,7 +1,7 @@
 package main
 
 import (
-  //"fmt"
+  "fmt"
 
   "gopkg.in/urfave/cli.v2"
 
@@ -13,6 +13,22 @@ import (
   --
   Name: "axis",
 */
+
+
+var txtMouseAxis = `
+This command will set a controller input to emit a mouse movements
+
+Inputs: %s
+
+Axis: %s
+`
+
+var usageMouseAxis = "Set input to emit mouse movements"
+var descMouseAxis = fmt.Sprintf(
+  txtMouseAxis,
+  fmt.Sprintf("\n%s", ControlInputNameByCapability(howler.CapMouseAxis)),
+  fmt.Sprintf("\n%s", ControlFunctionNameByCapability(howler.CapMouseAxis)),
+)
 
 func setMouseAxis(c *cli.Context) error {
   input := InputStruct{

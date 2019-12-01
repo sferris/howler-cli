@@ -19,10 +19,13 @@ func showControlSettings(c *cli.Context) error {
     }
   }
 
-  for input := range howler.ControlInputs() {
-    //input := howler.ControlButton26.ID()
-    i, _ := controller.GetInput(howler.ControlID(input))
-    fmt.Printf("%02d: %s\n", input, i.String())
+  for i, control := range howler.ControlInputsByID() {
+    input, err := controller.GetInput(control.ID())
+    if err != nil { 
+      fmt.Printf("%02d %+v\n", i, input.Dump())
+    } else {
+      fmt.Printf("%02d %s\n", i, input.String())
+    }
   }
 
   return nil
