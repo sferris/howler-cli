@@ -32,6 +32,7 @@ var app = &cli.App{
     Name: "howler-cli",
     Usage: "A command line utility for configuring a Howler Arcade controller",
     Version: "0.0.1",
+    EnableShellCompletion: true,
 
     Flags: []cli.Flag{
       &cli.IntFlag{
