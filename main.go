@@ -3,7 +3,7 @@ package main
 import (
   "os"
   "log"
-  "fmt"
+  _"fmt"
 
   _"sort"
 
@@ -14,13 +14,6 @@ import (
 
   howler "github.com/sferris/howler-controller"
 )
-
-/*
-	i, err := strconv.ParseInt(s, 10, 8) //Is third parameter not honored??
-	if err != nil {
-		panic(err)
-	}
-*/
 
 var (
   device int
@@ -34,7 +27,6 @@ func init() {
     columns = int(ws.Col)
   }
 }
-
 
 var app = &cli.App{
     Name: "howler-cli",
@@ -53,19 +45,8 @@ var app = &cli.App{
 
     Commands: []*cli.Command{
       // \
-      //  > LED Input actions
+      //  > LED Actions
       // /
-
-      // Get controller LED settings
-      {
-        Name:        "led-settings",
-        Usage:       "Display the controller LED strtings",
-        Description: "Display the controller LED strtings",
-
-        Action: func(c *cli.Context) error {
-          return getLEDSettings()
-        },
-      },
 
       // Set LED color
       {
@@ -82,43 +63,41 @@ var app = &cli.App{
             Name: "color",
             Usage: "The color to set the button/led to",
           },
+        },
+
+        Action: setLED,
+      },
+
+      // Set LED default color
+      {
+        Name:        "set-led-default",
+        Usage:       "Change the color of one of the Button LEDs",
+        Description: "This command is used to alter the color of a button/LED",
+
+        Flags: []cli.Flag{
           &cli.StringFlag{
-            Name: "scope",
-            Usage: "The scope to change the color (current, or default)",
+            Name: "input",
+            Usage: "The button/led to change",
+          },
+          &cli.StringFlag{
+            Name: "color",
+            Usage: "The color to set the button/led to",
           },
         },
 
-        Action: func(c *cli.Context) error {
-          led := LEDStruct{
-            Name:   c.String("input"),
-            Color:  c.String("color"),
-            Scope:  c.String("scope"),
-          }
-          return led.Process()
-        },
+        Action: setDefaultLED,
       },
 
       // \
-      //  > Alter input settings
+      //  > Input Actions
       // /
 
-      // Get controller Input settings
+      // Set input to emit analog joystick movement
       {
-        Name:        "control-settings",
-        Usage:       "Display the controller LED strtings",
-        Description: "Display the controller LED strtings",
-
-        Action: func(c *cli.Context) error {
-          return getControlSettings()
-        },
-      },
-
-      // Set input to emit keyboard key-codes
-      {
-        Name:        "set-button-keyboard",
-        Aliases:     []string{"set-keyboard"},
-        Usage:       "Alter a controller input to emit a keyboard key",
-        Description: "This command will set a controller input to emit a keyboard key",
+        Name:        "set-joystick-analog",
+        Aliases:     []string{"setja"},
+        Usage:       "Set input to emit analog joystick movements",
+        Description: "This command will set a controller input to emit analog joystick movements",
 
         Flags: []cli.Flag{
           &cli.StringFlag{
@@ -126,31 +105,19 @@ var app = &cli.App{
             Usage: "The input to alter, eg: joy1up, joy1down, button1, etc",
           },
           &cli.StringFlag{
-            Name: "modifier",
-            Usage: "In a keyboard context, the modifier to use in addition to the value",
-          },
-          &cli.StringFlag{
-            Name: "key",
-            Usage: "What value the button emits when pressed (context dependent)",
+            Name: "function",
+            Usage: "Which mouse axis to emit",
           },
         },
 
-        Action: func(c *cli.Context) error {
-          input := InputStruct{
-            Name:      c.String("input"),
-            Type:      "keyboard",
-            Modifier:  c.String("modifier"),
-            Value:     c.String("key"),
-          }
-          return input.Process()
-        },
+        Action: setJoystickAnalog,
       },
 
       // Set input to emit joystick button codes
       {
-        Name:        "set-button-joystick",
-        Aliases:     []string{"set-joystick"},
-        Usage:       "Alter a controller input to emit a joystick button",
+        Name:        "set-joystick-button",
+        Aliases:     []string{"setjb"},
+        Usage:       "Set input to emit a joystick button",
         Description: "This command will set a controller input to emit a joystick button press",
 
         Flags: []cli.Flag{
@@ -169,21 +136,81 @@ var app = &cli.App{
           },
         },
 
-        Action: func(c *cli.Context) error {
-          input := InputStruct{
-            Name:      c.String("input"),
-            Type:      c.String("joystick"),
-            Value:     c.String("button"),
-          }
-          return input.Process()
+        Action: setJoystickButton,
+      },
+
+      // Set input to emit digital joystick movement
+      {
+        Name:        "set-joystick-digital",
+        Aliases:     []string{"setjd"},
+        Usage:       "Set input to emit digital joystick movements",
+        Description: "This command will set a controller input to emit digital joystick movements",
+
+        Flags: []cli.Flag{
+          &cli.StringFlag{
+            Name: "input",
+            Usage: "The input to alter, eg: joy1up, joy1down, button1, etc",
+          },
+          &cli.StringFlag{
+            Name: "function",
+            Usage: "Which mouse axis to emit",
+          },
         },
+
+        Action: setJoystickDigital,
+      },
+
+      // Set input to emit keyboard key-codes
+      {
+        Name:        "set-keyboard-button",
+        Aliases:     []string{"setkb"},
+        Usage:       "Set input to emit a keyboard key",
+        Description: "This command will set a controller input to emit a keyboard key",
+
+        Flags: []cli.Flag{
+          &cli.StringFlag{
+            Name: "input",
+            Usage: "The input to alter, eg: joy1up, joy1down, button1, etc",
+          },
+          &cli.StringFlag{
+            Name: "modifier",
+            Usage: "In a keyboard context, the modifier to use in addition to the value",
+          },
+          &cli.StringFlag{
+            Name: "key",
+            Usage: "What value the button emits when pressed (context dependent)",
+          },
+        },
+
+        Action: setKeyboardButton,
       },
 
       // Set input to emit mouse button codes
       {
-        Name:        "set-button-mouse",
-        Aliases:     []string{"set-mouse"},
-        Usage:       "Alter a controller input to emit a mouse button",
+        Name:        "set-mouse-axis",
+        Aliases:     []string{"setma"},
+        Usage:       "Set input to emit mouse movements",
+        Description: "This command will set a controller input to emit a mouse movements",
+
+        Flags: []cli.Flag{
+          &cli.StringFlag{
+            Name: "input",
+            Usage: "The input to alter, eg: joy1up, joy1down, button1, etc",
+          },
+          &cli.StringFlag{
+            Name: "axis",
+            Usage: "Which mouse axis to emit",
+          },
+        },
+
+        Action: setMouseAxis,
+      },
+
+      // Set input to emit mouse button codes
+      {
+        Name:        "set-mouse-button",
+        Aliases:     []string{"setmb"},
+        Usage:       "Set input to emit a mouse button",
         Description: "This command will set a controller input to emit a mouse button press",
 
         Flags: []cli.Flag{
@@ -197,24 +224,16 @@ var app = &cli.App{
           },
         },
 
-        Action: func(c *cli.Context) error {
-          input := InputStruct{
-            Name:      c.String("input"),
-            Type:      "keyboard",
-            Modifier:  c.String("modifier"),
-            Value:     c.String("button"),
-          }
-          return input.Process()
-        },
+        Action: setMouseButton,
       },
 
       // \
       //  > Process many inputs defined in a file
       // /
       {
-        Name:        "from-file",
+        Name:        "read-file",
         Usage:       "Read settings from a yaml file",
-        Aliases:     []string{"read"},
+        Aliases:     []string{"read","file"},
         Description: "This command allows you to change many settings that are represented in a yaml file",
         Flags: []cli.Flag{
           &cli.StringFlag{
@@ -224,12 +243,27 @@ var app = &cli.App{
           },
         },
 
-        Action: func(c *cli.Context) error {
-          file := FileStruct{
-            Path: c.String("path"),
-          }
-          return file.Process()
-        },
+        Action: readFile,
+      },
+
+      // Show controller LED settings
+      {
+        Name:        "show-led-settings",
+        Aliases: []string{"led-settings"},
+        Usage:       "Display the controller LED strtings",
+        Description: "Display the controller LED strtings",
+
+        Action: showLEDSettings,
+      },
+
+      // Get controller Input settings
+      {
+        Name:        "show-control-settings",
+        Aliases: []string{"control-settings"},
+        Usage:       "Display the controller LED strtings",
+        Description: "Display the controller LED strtings",
+
+        Action: showControlSettings,
       },
 
       // \
@@ -241,11 +275,7 @@ var app = &cli.App{
         Aliases:     []string{"show-keys"},
         Description: "This shows the list of valid keyboard key names",
 
-        Action: func(c *cli.Context) error {
-          fmt.Println("Valid keyboard keys:\n")
-          fmt.Println( KeyNames() );
-          return nil
-        },
+        Action: showKeyboardKeys,
       },
 
       // \
@@ -257,11 +287,7 @@ var app = &cli.App{
         Aliases:     []string{"show-modifiers"},
         Description: "This shows the list of valid keyboard modifier names",
 
-        Action: func(c *cli.Context) error {
-          fmt.Println("Valid keyboard modifier names:\n")
-          fmt.Println( ModifierNames() );
-          return nil
-        },
+        Action: showKeyboardModifiers,
       },
 
       // \
@@ -273,11 +299,7 @@ var app = &cli.App{
         Aliases:     []string{"show-mouse"},
         Description: "This shows the list of valid mouse buttons",
 
-        Action: func(c *cli.Context) error {
-          fmt.Println("Valid mouse buttons:\n")
-          fmt.Println( MouseButtons() );
-          return nil
-        },
+        Action: showMouseButtons,
       },
 
       // \
@@ -289,30 +311,19 @@ var app = &cli.App{
         Aliases:     []string{"show-joystick"},
         Description: "This shows the list of valid joystick buttons",
 
-        Action: func(c *cli.Context) error {
-          fmt.Println("Valid joystick buttons:\n")
-          fmt.Println( JoystickButtons() );
-          return nil
-        },
+        Action: showJoystickButtons,
       },
 
       // \
       //  > Show possible inputs
       // /
       {
-        Name:        "show-inputs",
-        Usage:       "Show the valid inputs (context dependent)",
-        //Aliases:     []string{"show-joystick"},
+        Name:        "show-control-inputs",
+        Usage:       "Show the valid control inputs (context dependent)",
+        Aliases:     []string{"showci"},
         Description: "This will show the possible inputs for configuring inputs, or settings LEDs",
 
-        Action: func(c *cli.Context) error {
-          fmt.Println("Valid Control inputs:\n")
-          fmt.Println( ControlInput() );
-
-          fmt.Println("Valid LED inputs:\n")
-          fmt.Println( LedInputs() );
-          return nil
-        },
+        Action: showControlInputs,
       },
 
 
@@ -320,14 +331,12 @@ var app = &cli.App{
       //  > Show firmware version
       // /
       {
-        Name:        "firmware",
+        Name:        "show-firmware-revision",
         Usage:       "Show the firmware revision information",
-        Aliases:     []string{"show-fw"},
+        Aliases:     []string{"show-fw","firmware"},
         Description: "This shows the list of valid joystick buttons",
 
-        Action: func(c *cli.Context) error {
-          return ShowFirmware()
-        },
+        Action: showFirmwareRevision,
       },
     },
 }
@@ -337,21 +346,6 @@ var controller *howler.HowlerDevice
 func main() {
   log.SetFlags(0)
   //log.SetOutput(ioutil.Discard)
-
-/*
-  // Used to check enums
-  var keys []int
-  for k := range howler.InputTypeNames {
-      keys = append(keys, int(k))
-  }
-  sort.Ints(keys)
-  // To perform the opertion you want
-  for _, k := range keys {
-      fmt.Printf("Key: %0x, Value: %s\n", k, howler.InputTypeNames[howler.InputTypes(k)])
-  }
-
-  os.Exit(0)
-*/
 
   err := app.Run(os.Args)
   if err != nil {

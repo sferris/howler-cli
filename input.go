@@ -2,9 +2,10 @@ package main
 
 import (
   "fmt"
-  _"strings"
 
-  howler "github.com/sferris/howler-controller"
+  //"strings"
+
+  //howler "github.com/sferris/howler-controller"
 )
 
 type InputStruct struct {
@@ -26,50 +27,22 @@ func (input *InputStruct) String() string {
 func (input *InputStruct) Process() error {
   var err error
 
-  if controller == nil {
-    controller, err = howler.OpenDevice(device)
-    if err != nil {
-      return err
-    }
+  switch input.Type {
+    case "joystick-analog":
+      err = input.SetJoystickAnalog()
+    case "joystick-button":
+      err = input.SetJoystickButton()
+    case "joystick-digital":
+      err = input.SetJoystickDigital()
+    case "keyboard-button":
+      err = input.SetKeyboardButton()
+    case "mouse-axis":
+      err = input.SetMouseAxis()
+    case "mouse-button":
+      err = input.SetMouseButton()
+    default:
+      return fmt.Errorf("Invalid Input setting: %s\n", input.Type)
   }
 
-  typ, err := howler.StringToControlFunction(input.Type)
-  if err != nil {
-    return err
-  }
- 
-  if typ.Capability() & howler.CapJoystickButton != 0 {
-    return input.setButtonJoystick();
-  } else if typ.Capability() & howler.CapKeyboardButton != 0 {
-    return input.setButtonKeyboard();
-  } else if typ.Capability() & howler.CapMouseButton != 0 {
-    return input.setButtonMouse();
-  }
-
-  return nil
-}
-
-func getControlSettings() error {
-  var err error
-
-  if controller == nil {
-    controller, err = howler.OpenDevice(device)
-    if err != nil {
-      return err
-    }
-  }
-
-/*
-  for k, v := range howler.ControlFunctionMap {
-    fmt.Printf("%d: %+v\n", k, v)
-  }
-*/
-
-  for input := range howler.ControlInputs() {
-    //input := howler.ControlButton26.ID()
-    i, _ := controller.GetInput(howler.ControlID(input))
-    fmt.Printf("%d: %s\n", input, i.String())
-  }
-
-  return nil
+  return err
 }

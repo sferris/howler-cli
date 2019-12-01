@@ -3,14 +3,23 @@ package main
 import (
   "fmt"
   "sort"
+
+  "gopkg.in/urfave/cli.v2"
+
   howler "github.com/sferris/howler-controller"
 )
 
-func KeyNames() string {
+func showJoystickButtons(c *cli.Context) error {
+  fmt.Println("Valid joystick buttons:\n")
+  fmt.Println( JoystickButtons() );
+  return nil
+}
+
+func JoystickButtons() string {
   var result string
 
   var keys []int
-  for k := range howler.KeyNames {
+  for k := range howler.JoystickButtonNames {
     keys = append(keys, int(k))
   }
 
@@ -18,7 +27,7 @@ func KeyNames() string {
 
   w := 0
   for _, k := range keys {
-    value := fmt.Sprintf("%s, ", howler.KeyNames[howler.KeyCodes(k)])
+    value := fmt.Sprintf("%s, ", howler.JoystickButtonNames[howler.JoystickButtons(k)])
 
     result += value
 

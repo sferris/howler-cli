@@ -2,11 +2,12 @@ package main
 
 import (
   "fmt"
+  "gopkg.in/urfave/cli.v2"
 
-  "github.com/sferris/howler-controller"
+  howler "github.com/sferris/howler-controller"
 )
 
-func ShowFirmware() error {
+func showFirmwareRevision(c *cli.Context) error {
   var err error
 
   if controller == nil {

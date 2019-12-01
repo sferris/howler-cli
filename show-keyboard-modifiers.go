@@ -3,14 +3,23 @@ package main
 import (
   "fmt"
   "sort"
+
+  "gopkg.in/urfave/cli.v2"
+
   howler "github.com/sferris/howler-controller"
 )
 
-func MouseButtons() string {
+func showKeyboardModifiers(c *cli.Context) error {
+  fmt.Println("Valid keyboard modifier names:\n")
+  fmt.Println( ModifierNames() );
+  return nil
+}
+
+func ModifierNames() string {
   var result string
 
   var keys []int
-  for k := range howler.MouseButtonNames {
+  for k := range howler.ModifierNames {
     keys = append(keys, int(k))
   }
 
@@ -18,7 +27,7 @@ func MouseButtons() string {
 
   w := 0
   for _, k := range keys {
-    value := fmt.Sprintf("%s, ", howler.MouseButtonNames[howler.MouseButtons(k)])
+    value := fmt.Sprintf("%s, ", howler.ModifierNames[howler.KeyModifiers(k)])
 
     result += value
 
